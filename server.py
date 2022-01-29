@@ -9,7 +9,7 @@ n = r"./datasets/Beef_TRAIN"
 data = pd.read_csv(n)
 print(data)
 
-app = Flask(__name__, static_folder=r"./templates")
+app = Flask(__name__)
 
 
 @app.route("/")
