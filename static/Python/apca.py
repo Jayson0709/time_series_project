@@ -1,0 +1,1 @@
+# Adaptive Piecewise Constant Approximation
