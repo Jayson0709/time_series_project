@@ -1,0 +1,25 @@
+#links-div {
+    background-color:black;
+    line-height: 36px;
+    width: 600px;
+    position: relative;
+    top: 5px;
+    left: 440px;
+}
+
+a {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: azure;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+code {
+    background-color: aliceblue;
+}
+
+h1 {
+    text-align: center;
+}
