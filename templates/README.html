@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>README Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+    <div id="links-div">
+        <a href="/">Introduction Page</a>
+        <a href="/readme">README Page</a>
+        <a href="/summary">Algorithm Summary</a>
+        <a href="/visualization">Algorithm Visualization</a>
+    </div>
+    <h1>
+        README Page for the Project
+    </h1>
+    <h2>
+        Required Libraries/Modules
+    </h2>
+    <p>
+        To run this project, several dependencies should be installed.<br>
+        <code>
+            pip3 install flask<br>
+            pip3 install pandas<br>
+            pip3 install numpy<br>
+            pip3 install pyecharts<br>
+        </code>
+    </p>
+    <h2>
+        Running the Project
+    </h2>
+    <p>
+        To run the whole project, simply run the following command. <br>
+        <code>
+            python3 server.py
+        </code>
+    </p>
+</body>
+</html>
