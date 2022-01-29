@@ -5,7 +5,7 @@ import pandas as pd
 from pyecharts import options as opts
 from pyecharts.charts import Line
 
-n = r"./dataset/Beef_TRAIN"
+n = r"./datasets/Beef_TRAIN"
 data = pd.read_csv(n)
 print(data)
 
