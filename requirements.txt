@@ -1,0 +1,7 @@
+numpy~=1.19.5
+pandas~=1.1.5
+pyts~=0.11.0
+scipy~=1.5.4
+Flask~=2.0.1
+pyecharts~=1.9.0
+PyWavelets~=1.1.1
