@@ -1,29 +1,24 @@
 # Singular Value Decomposition
-
-from numpy import array
-from numpy import diag
-from numpy import zeros
+import numpy as np
+import pandas as pd
 from scipy.linalg import svd
 
-# define a matrix
-A = array([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-           [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-           [21, 22, 23, 24, 25, 26, 27, 28, 29, 30]])
-# Singular-value decomposition
-U, s, VT = svd(A)
-# create m x n Sigma matrix
-Sigma = zeros((A.shape[0], A.shape[1]))
-# populate Sigma with n x n diagonal matrix
-Sigma[:A.shape[0], :A.shape[0]] = diag(s)
-# select
-n_elements = 2
-Sigma = Sigma[:, :n_elements]
-VT = VT[:n_elements, :]
-# reconstruct
-B = U.dot(Sigma.dot(VT))
-print(B)
-# transform
-T = U.dot(Sigma)
-print(T)
-T = A.dot(VT.T)
-print(T)
+# Get sample data
+n = r"../../datasets/Beef_TRAIN"
+data = pd.read_csv(n).to_numpy()
+
+
+def svd_with_reduction(time_series_data, n_elements):
+    # Singular Value Decomposition
+    U, s, VT = svd(time_series_data)
+    # create m x n Sigma matrix
+    Sigma = np.zeros((time_series_data.shape[0], time_series_data.shape[1]))
+    # populate Sigma with n x n diagonal matrix
+    Sigma[: time_series_data.shape[0], : time_series_data.shape[0]] = np.diag(s)
+    # select based on the input n_elements to do dimensionality reduction
+    Sigma = Sigma[:, : n_elements]
+    # Transform and return
+    return U @ Sigma
+
+
+print(svd_with_reduction(data, 2))
