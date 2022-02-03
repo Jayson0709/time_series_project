@@ -7,8 +7,7 @@ n = r"../../datasets/Beef_TRAIN"
 data = pd.read_csv(n).to_numpy()
 
 
-def dft(time_series_data):
+# the input parameter can be one array or be one matrix
+def dft_transformation(time_series_data):
     return np.fft.fftn(time_series_data)
 
-
-print(dft(data))
