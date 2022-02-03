@@ -8,7 +8,8 @@ n = r"../../datasets/Beef_TRAIN"
 data = pd.read_csv(n).to_numpy()
 
 
-def svd_with_reduction(time_series_data, n_elements):
+# TODO In the webpage, use a slide for user input to define the value of "n_elements"
+def svd_transformation(time_series_data, n_elements):
     # Singular Value Decomposition
     U, s, VT = svd(time_series_data)
     # create m x n Sigma matrix
@@ -19,6 +20,3 @@ def svd_with_reduction(time_series_data, n_elements):
     Sigma = Sigma[:, : n_elements]
     # Transform and return
     return U @ Sigma
-
-
-print(svd_with_reduction(data, 2))
