@@ -1,5 +1,4 @@
 # Piecewise Aggregate Approximate
-from pyts.approximation import PiecewiseAggregateApproximation
 import pandas as pd
 
 # Get sample data
@@ -16,7 +15,7 @@ def paa_transformation(time_series_data, segments):
     if length < segments:
         raise ValueError('input array length is smaller than segments value.')
 
-    reduced_data = [None] * segments
+    reduced_data = [0.0] * segments
     segment_size = length / segments
     if length % segments == 0:
         local_sum = 0
