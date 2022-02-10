@@ -74,13 +74,13 @@ class AdaptivePiecewiseConstantApproximation:
 
     @staticmethod
     def get_mean_last_pairs(segment, num_of_segments):
-        result = [[0.0, 0]] * num_of_segments
+        _result = [[0.0, 0]] * num_of_segments
         i = 0
         while i < num_of_segments and segment is not None:
-            result[i] = [segment.mean, segment.end]
+            _result[i] = [segment.mean, segment.end]
             segment = segment.next
             i += 1
-        return result
+        return _result
 
     @staticmethod
     def get_unified_approximation_error(first_segment, second_segment, mean):
@@ -139,4 +139,3 @@ apca = AdaptivePiecewiseConstantApproximation(3)
 result = apca.transform(test)
 # TODO address the NoneType issue
 print(result)
-
