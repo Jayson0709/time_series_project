@@ -15,4 +15,7 @@ class DiscreteFourierTransformation:
     # the input parameter can be one array or be one matrix
     @staticmethod
     def transform(time_series_data):
-        return np.fft.fftn(time_series_data)
+        try:
+            return np.fft.fftn(time_series_data)
+        except Exception as e:
+            print(e)
