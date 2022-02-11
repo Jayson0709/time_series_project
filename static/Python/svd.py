@@ -14,7 +14,7 @@ class SingularValueDecomposition:
 
     # TODO In the webpage, use a slide for user input to define the value of "n_elements"
     @staticmethod
-    def svd_transformation(time_series_data, n_elements):
+    def transform(time_series_data, n_elements):
         try:
             # Singular Value Decomposition
             U, s, VT = svd(time_series_data)

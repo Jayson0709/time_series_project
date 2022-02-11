@@ -33,7 +33,7 @@ class PiecewiseLinearAggregateApproximation:
             print(e)
 
     # TODO In the webpage, use a slide for user input to define the value of "segments"
-    def pla_transformation(self, time_series_data):
+    def transform(self, time_series_data):
         try:
             length = len(time_series_data)
             if length < self.segments:
