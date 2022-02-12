@@ -1,11 +1,6 @@
 # Adaptive Piecewise Constant Approximation
 import numpy as np
-import pandas as pd
 from sortedcontainers import SortedSet
-
-# Get sample data
-n = r"../../datasets/Beef_TRAIN"
-data = pd.read_csv(n).to_numpy()
 
 
 class Segment:

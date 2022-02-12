@@ -1,16 +1,9 @@
 # Piecewise Aggregate Approximate
-import pandas as pd
-
-# Get sample data
-n = r"../../datasets/Beef_TRAIN"
-data = pd.read_csv(n).to_numpy()[3]
-
 
 class PiecewiseAggregateApproximation:
     def __init__(self, segments):
         self.segments = segments
 
-    # TODO In the webpage, use a slide for user input to define the value of "segments"
     def transform(self, time_series_data):
         try:
             # PAA transformation based on the input segments

@@ -1,11 +1,6 @@
 # Piecewise Linear Aggregate Approximation
-import pandas as pd
 import numpy as np
 import statistics
-
-# Get sample data
-n = r"../../datasets/Beef_TRAIN"
-data = pd.read_csv(n).to_numpy()[3][1:]
 
 
 class PiecewiseLinearAggregateApproximation:
@@ -32,7 +27,6 @@ class PiecewiseLinearAggregateApproximation:
         except Exception as e:
             print(e)
 
-    # TODO In the webpage, use a slide for user input to define the value of "segments"
     def transform(self, time_series_data):
         try:
             length = len(time_series_data)

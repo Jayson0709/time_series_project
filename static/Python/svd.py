@@ -1,18 +1,12 @@
 # Singular Value Decomposition
 import numpy as np
-import pandas as pd
 from scipy.linalg import svd
-
-# Get sample data
-n = r"../../datasets/Beef_TRAIN"
-data = pd.read_csv(n).to_numpy()
 
 
 class SingularValueDecomposition:
     def __init__(self):
         pass
 
-    # TODO In the webpage, use a slide for user input to define the value of "n_elements"
     @staticmethod
     def transform(time_series_data, n_elements):
         try:

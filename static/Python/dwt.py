@@ -1,10 +1,5 @@
 # Discrete Wavelet Transformation
 import pywt
-import pandas as pd
-
-# Get sample data
-n = r"../../datasets/Beef_TRAIN"
-data = pd.read_csv(n).to_numpy()
 
 
 class DiscreteHaarWaveletTransformation:
