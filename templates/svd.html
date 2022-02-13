@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVD Visualization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    <script src="/static/JavaScript/echarts.min.js"></script>
+</head>
+<body>
+{# TODO set one go back button#}
+
+    <div id="visualization" style="width: 600px; height: 400px;"></div>
+    <script type="text/javascript">
+        let myChart = echarts.init(document.getElementById('visualization'));
+        let option = {{ line_options | safe }};
+
+        // display the chart based on the options passed from the function.
+        myChart.setOption(option);
+    </script>
+    <p>
+        This is a demo visualization, and you can also input your own data.
+    </p>
+
+    <div id="input-button">
+{#        TODO pop up an input bar #}
+        <button onclick="window.location.href='/visualization/APCA';">Input your own data</button>
+    </div>
+
+
+</body>
+</html>
