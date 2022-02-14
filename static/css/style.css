@@ -1,10 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,900&display=swap');
+
 #links-div {
     background-color:black;
     line-height: 36px;
+    margin: auto;
     width: 600px;
-    position: relative;
-    top: 5px;
-    left: 440px;
 }
 
 a {
@@ -24,13 +24,57 @@ h1 {
     text-align: center;
 }
 
+#intro_and_visualization-page-intro{
+    text-align: center;
+    margin: auto;
+    width: 700px;
+}
+
 #algorithm-buttons {
-  background-color: blue;
-  border: none;
-  color: white;
-  padding: 15px 32px;
+  background-color: #FFFFFF;
+  border: 1px solid rgb(209,213,219);
+  border-radius: .5rem;
+  box-sizing: border-box;
+  color: #111827;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: .75rem 1rem;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 24px;
+  text-decoration: none #D1D5DB solid;
+  text-decoration-thickness: auto;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#algorithm-buttons:hover {
+  background-color: rgb(249,250,251);
+}
+
+#algorithm-buttons:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+#algorithm-buttons:focus-visible {
+  box-shadow: none;
+}
+
+
+#algorithm-buttons-div{
+    margin: auto;
+    width: 27%;
+    border: 5px solid lightyellow;
+    padding: 10px;
+}
+
+#README-and-summary-text-position{
+    position: relative;
+    top: 20px;
+    left: 30%;
+    width: 400px;
 }
