@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" class="README-page">
-<head>
-    <meta charset="UTF-8">
-    <title>README Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-</head>
-<body>
-    <div id="links-div">
-        <a href="/">Introduction Page</a>
-        <a href="/readme">README Page</a>
-        <a href="/summary">Algorithm Summary</a>
-        <a href="/visualization">Algorithm Visualization</a>
-    </div>
+{% extends 'base.html' %} {% block title %} README Page {% endblock %}
 
+{% block content %}
     <h1>
         README Page for the Project
     </h1>
@@ -41,5 +29,4 @@
             </code>
         </p>
     </div>
-</body>
-</html>
+{% endblock %}

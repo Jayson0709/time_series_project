@@ -1,24 +1,12 @@
-<!DOCTYPE html>
-<html lang="en" class="index-page">
-<head>
-    <meta charset="UTF-8">
-    <title>Time Series Project</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-</head>
-<body>
-    <div id="links-div">
-        <a href="/">Introduction Page</a>
-        <a href="/readme">README Page</a>
-        <a href="/summary">Algorithm Summary</a>
-        <a href="/visualization">Algorithm Visualization</a>
-    </div>
-    <h1>
-        Times Series Project
-    </h1>
-    <p id="intro_and_visualization-page-intro">
-        This project aims to visualize some dimensionality reduction algorithms used in time-series data analysis. Time-series data usually has high dimensionality and
-        we wanted to reduce the dimensionality so that we can extract the key features of the data. Dimensionality reduction also reduces the storage space required for data
-        because it helps in data compression and plays a significant role data preprocessing phase.
-    </p>
-</body>
-</html>
+{% extends 'base.html' %} {% block title %} Introduction Page {% endblock %}
+
+{% block content %}
+<h1>
+    Times Series Project
+</h1>
+<p id="intro_and_visualization-page-intro">
+    This project aims to visualize some dimensionality reduction algorithms used in time-series data analysis. Time-series data usually has high dimensionality and
+    we wanted to reduce the dimensionality so that we can extract the key features of the data. Dimensionality reduction also reduces the storage space required for data
+    because it helps in data compression and plays a significant role data preprocessing phase.
+</p>
+{% endblock %}

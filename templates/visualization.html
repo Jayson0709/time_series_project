@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" class="visualization-page">
-<head>
-    <meta charset="UTF-8">
-    <title>Algorithm Visualization</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-    <script src="/static/JavaScript/echarts.min.js"></script>
-</head>
-<body>
-    <div id="links-div">
-        <a href="/">Introduction Page</a>
-        <a href="/readme">README Page</a>
-        <a href="/summary">Algorithm Summary</a>
-        <a href="/visualization">Algorithm Visualization</a>
-    </div>
+{% extends 'base.html' %} {% block title %} Algorithm Visualization {% endblock %}
+
+{% block content %}
     <h1>
         Visualization Overview Page for Different Algorithms
     </h1>
@@ -30,6 +18,4 @@
         <button id="algorithm-buttons" onclick="window.location.href='/visualization/DWT';">DWT</button>
         <button id="algorithm-buttons" onclick="window.location.href='/visualization/SVD';">SVD</button>
     </div>
-
-</body>
-</html>
+{% endblock %}
