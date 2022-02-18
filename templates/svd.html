@@ -7,23 +7,48 @@
     <script src="/static/JavaScript/echarts.min.js"></script>
 </head>
 <body>
-{# TODO set one go back button#}
 
-    <div id="visualization" style="width: 600px; height: 400px;"></div>
+    <button id="go-back-button" onclick="window.location.href='/visualization';">Go back to visualization page</button>
+    <div id="main"></div>
     <script type="text/javascript">
-        let myChart = echarts.init(document.getElementById('visualization'));
+        let myChart = echarts.init(document.getElementById('main'));
         let option = {{ line_options | safe }};
 
         // display the chart based on the options passed from the function.
         myChart.setOption(option);
     </script>
-    <p>
-        This is a demo visualization, and you can also input your own data.
-    </p>
 
-{#        TODO pop up an input bar #}
-    <button id="input-button" onclick="window.location.href='/visualization/APCA';">Input your own data</button>
+    <br>
 
+    <div class="form-center">
+        <form method="post">
+            <div class="form-group">
+            <label for="n_elements">Input the segments: </label>
+            <input
+              type="number"
+              class="form-control"
+              id="n_elements"
+              name="n_elements"
+              placeholder="Top n (like: 5)"
+            />
+
+            <label for="data">Input your data: </label>
+            <input
+              type="text"
+              class="form-control"
+              id="data"
+              name="data"
+              size=50
+              placeholder="1.43123, etc. (Split up by comma)"
+            />
+            </div>
+            <br>
+            <button id="visualization-submit-button" onclick="window.location.href='/visualization/SVD';">Submit your own data</button>
+        </form>
+    </div>
+    <br>
+    <br>
+    <button id="display-demo-button" onclick="window.location.href='/visualization/SVD';"> Display the previous demo</button>
 
 </body>
 </html>
