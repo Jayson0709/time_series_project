@@ -6,10 +6,22 @@ h2 {
     text-align: center;
 }
 
-#page-intro{
+h5 {
+    margin-left: auto;
     text-align: center;
+}
+
+.index-image{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+#page-intro{
     margin: auto;
     width: 750px;
+    text-align: justify;
 }
 
 #algorithm-buttons {
@@ -63,8 +75,8 @@ h2 {
 #main {
     margin:auto;
     top: 20%;
-    width: 600px;
-    height: 400px;
+    width: 1000px;
+    height: 600px;
     position: center;
 }
 
@@ -157,4 +169,7 @@ h2 {
   color: rgb(255, 255, 255, .7);
 }
 
+table, th{
+    border: 1px solid black;
+}
 
