@@ -1,9 +1,13 @@
 {% extends 'base.html' %} {% block title %} README Page {% endblock %}
 
 {% block content %}
+    <br>
+
     <h2>
         README Page for the Project
     </h2>
+
+    <br>
 
     <div id="README-and-summary-text-position">
 
@@ -11,12 +15,10 @@
             Required Libraries/Modules
         </h4>
         <p>
-            To run this project, several dependencies should be installed.<br>
+            To run this project, several dependencies should be installed. They are all list in the <code>requirements.txt</code> file.<br>
+            Under the project directory, simply run: <br>
             <code>
-                pip3 install flask<br>
-                pip3 install pandas<br>
-                pip3 install numpy<br>
-                pip3 install pyecharts<br>
+                pip3 install -r requirements.txt
             </code>
         </p>
         <h4>
@@ -27,6 +29,28 @@
             <code>
                 python3 server.py
             </code>
+            <br>
+            Then visit <code>http://127.0.0.1:5000/</code> in your browser. The app should be up & running.
+        </p>
+
+        <br>
+
+        <h4>
+            Code Structure:
+        </h4>
+        <p>
+            The code structure is: <br>
+        </p>
+
+        <br>
+
+        <h4>
+            Credits & Links
+        </h4>
+        <p>
+            <a href="https://flask.palletsprojects.com/en/2.0.x/">Flask Framework</a> <br>
+            <a href="https://getbootstrap.com/">Bootstrap</a> <br>
+            <a href="https://gallery.pyecharts.org/#/README">pyecharts Documentation</a>
         </p>
     </div>
 {% endblock %}

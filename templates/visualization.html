@@ -1,16 +1,16 @@
 {% extends 'base.html' %} {% block title %} Algorithm Visualization {% endblock %}
 
 {% block content %}
+    <br>
     <h2>
         Visualization Overview Page for Different Algorithms
     </h2>
+    <br>
     <p id="page-intro">
         Below are the visualization for six different algorithms.<br>
         You can select any button to see the visualization and also experience it with your own input data.
     </p>
-
-    {# TODO for some algorithms, we need to ask for the segments,  SVD show users to use a slide for user input to define the value of "n_elements"#}
-    {# TODO provide own data input bar in each visualization #}
+    <br>
     <div id="algorithm-buttons-div">
         <button id="algorithm-buttons" onclick="window.location.href='/visualization/APCA';">APCA</button>
         <button id="algorithm-buttons" onclick="window.location.href='/visualization/PAA';">PAA</button>

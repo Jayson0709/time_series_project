@@ -66,10 +66,9 @@ h5 {
 }
 
 #README-and-summary-text-position{
-    position: relative;
-    top: 20px;
-    left: 30%;
-    width: 400px;
+    margin: auto;
+    width: 600px;
+    text-align: justify-all;
 }
 
 #main {

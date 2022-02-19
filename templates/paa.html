@@ -19,11 +19,17 @@
     </script>
 
     <br>
-
+    {% if boolean_message %}
+        <br>
+        <p style="margin: auto; color: beige">
+            This is the demo visualization. You can input your own data to see the transformation.
+        </p>
+        <br>
+    {% endif %}
     <div class="form-center">
         <form method="post">
             <div class="form-group">
-            <label for="segments">Input the segments: </label>
+            <label for="segments" style="font-size: 20px">Input the segments: </label>
             <input
               type="number"
               class="form-control"
@@ -32,7 +38,7 @@
               placeholder="Segments size (like: 5)"
             />
 
-            <label for="data">Input your data: </label>
+            <label for="data" style="font-size: 20px">Input your data: </label>
             <input
               type="text"
               class="form-control"
@@ -47,8 +53,23 @@
         </form>
     </div>
     <br>
-    <br>
     <button id="display-demo-button" onclick="window.location.href='/visualization/PAA';"> Display the previous demo</button>
 
+    <br>
+
+    <table style="width:100%">
+        <tr>
+            <th>The original data</th>
+            <th>{{ original_data }}</th>
+        </tr>
+        <tr>
+            <th>The reduced data</th>
+            <th>{{ reduced_data }}</th>
+        </tr>
+        <tr>
+            <th>Segments</th>
+            <th>{{ segments }}</th>
+        </tr>
+    </table>
 </body>
 </html>

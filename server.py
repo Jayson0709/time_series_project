@@ -44,13 +44,17 @@ def apca_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    show_demo_message = True
+    segments = 12
     if request.method == 'POST':
         x_data = []
         y_data = request.form.get('data')
-        APCA = apca.AdaptivePiecewiseConstantApproximation(request.form.get('segments'))
+        segments = int(request.form.get('segments'))
+        APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
         reduced_data = APCA.transform(y_data)
+        show_demo_message = False
     else:
-        APCA = apca.AdaptivePiecewiseConstantApproximation(12)
+        APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
         x_data = []
         y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
         reduced_data = APCA.transform(y_data)
@@ -73,7 +77,7 @@ def apca_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=title_name))
     )
-    return render_template("apca.html", line_options=line.dump_options())
+    return render_template("apca.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, segments=segments, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/DFT", methods=['GET', 'POST'])
@@ -83,6 +87,7 @@ def dft_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    show_demo_message = True
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
@@ -91,6 +96,7 @@ def dft_visualization():
         x_data = []
         y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
         reduced_data = DFT.transform(y_data)
+        show_demo_message = False
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -110,7 +116,7 @@ def dft_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=title_name))
     )
-    return render_template("dft.html", line_options=line.dump_options())
+    return render_template("dft.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/DWT", methods=['GET', 'POST'])
@@ -120,6 +126,7 @@ def dwt_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    show_demo_message = True
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
@@ -128,6 +135,7 @@ def dwt_visualization():
         x_data = []
         y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
         reduced_data = DWT.haar_transformation(y_data)
+        show_demo_message = False
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -147,7 +155,7 @@ def dwt_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=title_name))
     )
-    return render_template("dft.html", line_options=line.dump_options())
+    return render_template("dft.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/PAA", methods=['GET', 'POST'])
@@ -156,16 +164,20 @@ def paa_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    segments = 4
+    show_demo_message = True
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
-        PAA = paa.PiecewiseAggregateApproximation(4)
+        PAA = paa.PiecewiseAggregateApproximation(segments)
         reduced_data = PAA.transform(y_data)
     elif request.method == 'POST':
         y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
         x_data = [i for i in range(len(y_data))]
-        PAA = paa.PiecewiseAggregateApproximation(int(request.form.get('segments')))
+        segments = int(request.form.get('segments'))
+        PAA = paa.PiecewiseAggregateApproximation(segments)
         reduced_data = PAA.transform(y_data)
+        show_demo_message = False
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -185,7 +197,7 @@ def paa_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=title_name))
     )
-    return render_template("paa.html", line_options=line.dump_options())
+    return render_template("paa.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, segments=segments, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/PLA", methods=['GET', 'POST'])
@@ -194,16 +206,20 @@ def pla_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    segments = 10
+    show_demo_message = True
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3][1:]
-        PLA = pla.PiecewiseLinearAggregateApproximation(10)
+        PLA = pla.PiecewiseLinearAggregateApproximation(segments)
         reduced_data = PLA.transform(y_data)
     elif request.method == 'POST':
         x_data = []
         y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
-        PLA = pla.PiecewiseLinearAggregateApproximation(request.form.get('segments'))
+        segments = int(request.form.get('segments'))
+        PLA = pla.PiecewiseLinearAggregateApproximation(segments)
         reduced_data = PLA.transform(y_data)
+        show_demo_message = False
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -223,7 +239,7 @@ def pla_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=title_name))
     )
-    return render_template("pla.html", line_options=line.dump_options())
+    return render_template("pla.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, segments=segments, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/SVD", methods=['GET', 'POST'])
@@ -233,14 +249,18 @@ def svd_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    n_elements = 5
+    show_demo_message = True
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
-        reduced_data = SVD.transform(y_data, 5)
+        reduced_data = SVD.transform(y_data, n_elements)
     elif request.method == 'POST':
         x_data = []
         y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
-        reduced_data = SVD.transform(y_data, int(request.form.get('n_elements')))
+        n_elements = int(request.form.get('n_elements'))
+        reduced_data = SVD.transform(y_data, n_elements)
+        show_demo_message = False
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -260,7 +280,7 @@ def svd_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=title_name))
     )
-    return render_template("svd.html", line_options=line.dump_options())
+    return render_template("svd.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, n_elements=n_elements, boolean_message=show_demo_message)
 
 
 if __name__ == "__main__":

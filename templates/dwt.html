@@ -19,7 +19,13 @@
     </script>
 
     <br>
-
+    {% if boolean_message %}
+        <br>
+        <p style="margin: auto; color: beige">
+            This is the demo visualization. You can input your own data to see the transformation.
+        </p>
+        <br>
+    {% endif %}
     <div class="form-center">
         <form method="post">
             <div class="form-group">
@@ -38,8 +44,17 @@
         </form>
     </div>
     <br>
-    <br>
     <button id="display-demo-button" onclick="window.location.href='/visualization/DWT';"> Display the previous demo</button>
-
+    <br>
+    <table style="width:100%">
+        <tr>
+            <th>The original data</th>
+            <th>{{ original_data }}</th>
+        </tr>
+        <tr>
+            <th>The reduced data</th>
+            <th>{{ reduced_data }}</th>
+        </tr>
+    </table>
 </body>
 </html>
