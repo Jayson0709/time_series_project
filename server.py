@@ -9,6 +9,7 @@ from static.Python import paa
 from static.Python import pla
 from static.Python import svd
 from static.Python import constant_values
+import re
 
 # Get the demo data from the datasets
 file_path = r"./datasets/Beef_TRAIN"
@@ -17,6 +18,25 @@ data = pd.read_csv(file_path, header=None).to_numpy()
 
 # Initiate the app
 app = Flask(__name__)
+
+
+def validate_input_segments(string):
+    if string == constant_values.EMPTY_STRING:
+        raise ValueError('Segments field is required.')
+    string = string.strip()
+    return int(string)
+
+
+def validate_input_data(string):
+    if string == constant_values.EMPTY_STRING:
+        raise ValueError('Input data is empty.')
+    string = string.strip()
+    if string[-1] == constant_values.COMMA:
+        raise ValueError('Input data cannot end with comma.')
+    string.replace(constant_values.SPACE, constant_values.EMPTY_STRING)
+    if not re.match(r'^[0-9,]*$', string):
+        raise ValueError('Input data can only contain space, comma, and numbers.')
+    return string.split(constant_values.COMMA)
 
 
 @app.route("/")
@@ -54,9 +74,9 @@ def apca_visualization():
         reduced_data = APCA.transform(y_data)
     elif request.method == 'POST':
         try:
+            y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = []
-            y_data = [float(i) for i in request.form.get(constant_values.STRING_DATA).replace(constant_values.SPACE, constant_values.EMPTY_STRING).split(constant_values.COMMA)]
-            segments = int(request.form.get(constant_values.STRING_SEGMENTS))
+            segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
             reduced_data = APCA.transform(y_data)
             show_demo_message = False
@@ -97,8 +117,8 @@ def dft_visualization():
         reduced_data = DFT.transform(y_data)
     elif request.method == 'POST':
         try:
+            y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = []
-            y_data = [float(i) for i in request.form.get(constant_values.STRING_DATA).replace(constant_values.SPACE, constant_values.EMPTY_STRING).split(constant_values.COMMA)]
             reduced_data = DFT.transform(y_data)
             show_demo_message = False
         except Exception as e:
@@ -138,8 +158,8 @@ def dwt_visualization():
         reduced_data = DWT.haar_transformation(y_data)
     elif request.method == 'POST':
         try:
+            y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = []
-            y_data = [float(i) for i in request.form.get(constant_values.STRING_DATA).replace(constant_values.SPACE, constant_values.EMPTY_STRING).split(constant_values.COMMA)]
             reduced_data = DWT.haar_transformation(y_data)
             show_demo_message = False
         except Exception as e:
@@ -181,9 +201,9 @@ def paa_visualization():
         reduced_data = PAA.transform(y_data)
     elif request.method == 'POST':
         try:
-            y_data = [float(i) for i in request.form.get(constant_values.STRING_DATA).replace(constant_values.SPACE, constant_values.EMPTY_STRING).split(constant_values.COMMA)]
+            y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
-            segments = int(request.form.get(constant_values.STRING_SEGMENTS))
+            segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             PAA = paa.PiecewiseAggregateApproximation(segments)
             reduced_data = PAA.transform(y_data)
             show_demo_message = False
@@ -225,9 +245,9 @@ def pla_visualization():
         reduced_data = PLA.transform(y_data)
     elif request.method == 'POST':
         try:
+            y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = []
-            y_data = [float(i) for i in request.form.get(constant_values.STRING_DATA).replace(constant_values.SPACE, constant_values.EMPTY_STRING).split(constant_values.COMMA)]
-            segments = int(request.form.get(constant_values.STRING_SEGMENTS))
+            segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             PLA = pla.PiecewiseLinearAggregateApproximation(segments)
             reduced_data = PLA.transform(y_data)
             show_demo_message = False
@@ -269,8 +289,8 @@ def svd_visualization():
         reduced_data = SVD.transform(y_data, n_elements)
     elif request.method == 'POST':
         try:
+            y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = []
-            y_data = [float(i) for i in request.form.get(constant_values.STRING_DATA).replace(constant_values.SPACE, constant_values.EMPTY_STRING).split(constant_values.COMMA)]
             n_elements = int(request.form.get(constant_values.STRING_N_ELEMENTS))
             reduced_data = SVD.transform(y_data, n_elements)
             show_demo_message = False
@@ -299,8 +319,6 @@ def svd_visualization():
 
 
 if __name__ == "__main__":
-    app.secret_key = 'super secret key'
-    app.config['SESSION_TYPE'] = 'filesystem'
-
+    app.secret_key = constant_values.SECRET_KEY
     app.debug = True
     app.run()
