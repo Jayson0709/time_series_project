@@ -7,6 +7,18 @@
     <script src="/static/JavaScript/echarts.min.js"></script>
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+                    <div class="alert">
+                        <span class="close_btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <strong>Error</strong>: {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
     <button id="go-back-button" onclick="window.location.href='/visualization';">Go back to visualization page</button>
     <div id="main"></div>

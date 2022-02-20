@@ -13,4 +13,4 @@ class DiscreteFourierTransformation:
         try:
             return np.fft.fftn(time_series_data)
         except Exception as e:
-            print(e)
+            raise e

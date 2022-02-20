@@ -46,18 +46,21 @@ def apca_visualization():
     reduced_data = []
     show_demo_message = True
     segments = 12
-    if request.method == 'POST':
-        x_data = []
-        y_data = request.form.get('data')
-        segments = int(request.form.get('segments'))
-        APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
-        reduced_data = APCA.transform(y_data)
-        show_demo_message = False
-    else:
+    if request.method == 'GET':
         APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
         x_data = []
         y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
         reduced_data = APCA.transform(y_data)
+    elif request.method == 'POST':
+        try:
+            x_data = []
+            y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
+            segments = int(request.form.get('segments'))
+            APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
+            reduced_data = APCA.transform(y_data)
+            show_demo_message = False
+        except Exception as e:
+            flash(str(e), category='error')
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -93,10 +96,13 @@ def dft_visualization():
         y_data = data[3]
         reduced_data = DFT.transform(y_data)
     elif request.method == 'POST':
-        x_data = []
-        y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
-        reduced_data = DFT.transform(y_data)
-        show_demo_message = False
+        try:
+            x_data = []
+            y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
+            reduced_data = DFT.transform(y_data)
+            show_demo_message = False
+        except Exception as e:
+            flash(str(e), category='error')
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -132,10 +138,13 @@ def dwt_visualization():
         y_data = data[3]
         reduced_data = DWT.haar_transformation(y_data)
     elif request.method == 'POST':
-        x_data = []
-        y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
-        reduced_data = DWT.haar_transformation(y_data)
-        show_demo_message = False
+        try:
+            x_data = []
+            y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
+            reduced_data = DWT.haar_transformation(y_data)
+            show_demo_message = False
+        except Exception as e:
+            flash(str(e), category='error')
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -164,20 +173,24 @@ def paa_visualization():
     x_data = []
     y_data = []
     reduced_data = []
-    segments = 4
+    segments = None
     show_demo_message = True
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
+        segments = 4
         PAA = paa.PiecewiseAggregateApproximation(segments)
         reduced_data = PAA.transform(y_data)
     elif request.method == 'POST':
-        y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
-        x_data = [i for i in range(len(y_data))]
-        segments = int(request.form.get('segments'))
-        PAA = paa.PiecewiseAggregateApproximation(segments)
-        reduced_data = PAA.transform(y_data)
-        show_demo_message = False
+        try:
+            y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
+            x_data = [i for i in range(len(y_data))]
+            segments = int(request.form.get('segments'))
+            PAA = paa.PiecewiseAggregateApproximation(segments)
+            reduced_data = PAA.transform(y_data)
+            show_demo_message = False
+        except Exception as e:
+            flash(str(e), category='error')
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -214,12 +227,15 @@ def pla_visualization():
         PLA = pla.PiecewiseLinearAggregateApproximation(segments)
         reduced_data = PLA.transform(y_data)
     elif request.method == 'POST':
-        x_data = []
-        y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
-        segments = int(request.form.get('segments'))
-        PLA = pla.PiecewiseLinearAggregateApproximation(segments)
-        reduced_data = PLA.transform(y_data)
-        show_demo_message = False
+        try:
+            x_data = []
+            y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
+            segments = int(request.form.get('segments'))
+            PLA = pla.PiecewiseLinearAggregateApproximation(segments)
+            reduced_data = PLA.transform(y_data)
+            show_demo_message = False
+        except Exception as e:
+            flash(str(e), category='error')
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -256,11 +272,14 @@ def svd_visualization():
         y_data = data[3]
         reduced_data = SVD.transform(y_data, n_elements)
     elif request.method == 'POST':
-        x_data = []
-        y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
-        n_elements = int(request.form.get('n_elements'))
-        reduced_data = SVD.transform(y_data, n_elements)
-        show_demo_message = False
+        try:
+            x_data = []
+            y_data = [float(i) for i in request.form.get('data').replace(" ", "").split(',')]
+            n_elements = int(request.form.get('n_elements'))
+            reduced_data = SVD.transform(y_data, n_elements)
+            show_demo_message = False
+        except Exception as e:
+            flash(str(e), category='error')
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -284,4 +303,8 @@ def svd_visualization():
 
 
 if __name__ == "__main__":
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    app.debug = True
     app.run()

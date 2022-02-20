@@ -25,7 +25,7 @@ class PiecewiseLinearAggregateApproximation:
                     result += (x_deviation * y_deviation - result) / (i + 1)
             return result * (length / (length - 1)) if bias else result
         except Exception as e:
-            print(e)
+            raise e
 
     def transform(self, time_series_data):
         try:
@@ -52,4 +52,4 @@ class PiecewiseLinearAggregateApproximation:
             # each of element of the array will be like a list of [mean, slope]
             return reduced_data
         except Exception as e:
-            print(e)
+            raise e

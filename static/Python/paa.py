@@ -11,7 +11,7 @@ class PiecewiseAggregateApproximation:
                 raise ValueError('Segments value is too small.')
             length = len(time_series_data)
             if length < self.segments:
-                raise ValueError('input array length is smaller than segments value.')
+                raise ValueError('Input array length is smaller than segments value.')
 
             reduced_data = [0.0] * self.segments
             segment_size = length / self.segments
@@ -47,4 +47,4 @@ class PiecewiseAggregateApproximation:
                 reduced_data[self.segments - 1] = round(local_sum / segment_size, 3)
             return reduced_data
         except Exception as e:
-            print(e)
+            raise e

@@ -21,4 +21,4 @@ class SingularValueDecomposition:
             # Transform and return
             return U @ Sigma
         except Exception as e:
-            print(e)
+            raise e

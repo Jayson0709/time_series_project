@@ -14,4 +14,4 @@ class DiscreteHaarWaveletTransformation:
             # the DWT function will return approximation and detail coefficients
             return pywt.dwt(time_series_data, 'haar')
         except Exception as e:
-            print(e)
+            raise e

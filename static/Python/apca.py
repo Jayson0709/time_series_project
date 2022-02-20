@@ -50,8 +50,7 @@ class AdaptivePiecewiseConstantApproximation:
                     last = last.next
             return first
         except Exception as e:
-            print(e)
-            return
+            raise e
 
     def create_segment_set(self, values, first_segment):
         try:
@@ -66,8 +65,7 @@ class AdaptivePiecewiseConstantApproximation:
                 current = current.next
             return segment_set
         except Exception as e:
-            print(e)
-            return
+            raise e
 
     @staticmethod
     def delete_subsequent_segment(segment, segments_set):
@@ -78,8 +76,7 @@ class AdaptivePiecewiseConstantApproximation:
                 to_be_deleted.next.prev = segment
             segments_set.remove(to_be_deleted)
         except Exception as e:
-            print(e)
-            return
+            raise e
 
     @staticmethod
     def get_mean_last_pairs(segment, num_of_segments):
@@ -92,8 +89,7 @@ class AdaptivePiecewiseConstantApproximation:
                 i += 1
             return _result
         except Exception as e:
-            print(e)
-            return
+            raise e
 
     @staticmethod
     def get_unified_approximation_error(first_segment, second_segment, mean):
@@ -111,8 +107,7 @@ class AdaptivePiecewiseConstantApproximation:
                 error += abs(time_series_data[i] - mean)
             return error
         except Exception as e:
-            print(e)
-            return
+            raise e
 
     @staticmethod
     def get_unified_mean(first_segment, second_segment):
@@ -154,7 +149,7 @@ class AdaptivePiecewiseConstantApproximation:
             return self.get_mean_last_pairs(first_segment, num_of_segments)
         except Exception as e:
             print(e)
-            return []
+            # raise e
 
 
 test = [1, 1, 4, 5, 1, 0, 1, 2, 1]
