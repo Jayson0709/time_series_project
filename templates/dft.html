@@ -47,6 +47,15 @@
     <div class="form-center">
         <form method="post">
             <div class="form-group">
+            <label for="n_coefficients">Input your data: </label>
+            <input
+              type="number"
+              class="form-control"
+              id="n_coefficients"
+              name="n_coefficients"
+              size=50
+              placeholder="Such as 10"
+            />
             <label for="data">Input your data: </label>
             <input
               type="text"
@@ -73,6 +82,10 @@
         <tr>
             <th>The reduced data</th>
             <th>{{ reduced_data }}</th>
+        </tr>
+        <tr>
+            <th>N_coefficients</th>
+            <th>{{ n_coefficients }}</th>
         </tr>
     </table>
 </body>

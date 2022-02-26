@@ -1,12 +1,11 @@
 # Piecewise Aggregate Approximate
 
 class PiecewiseAggregateApproximation:
-    def __init__(self, segments):
-        self.segments = segments
+    def __init__(self, _segments):
+        self.segments = _segments
 
     def transform(self, time_series_data):
         try:
-            # PAA transformation based on the input segments
             if self.segments < 1:
                 raise ValueError('Segments value is too small.')
             length = len(time_series_data)
@@ -45,6 +44,7 @@ class PiecewiseAggregateApproximation:
                     local_sum += time_series_data[k]
                     k += 1
                 reduced_data[self.segments - 1] = round(local_sum / segment_size, 3)
-            return reduced_data
+            paa_dataset = [item for item in reduced_data for _ in range(length // len(reduced_data))]
+            return paa_dataset
         except Exception as e:
             raise e
