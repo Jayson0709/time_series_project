@@ -86,13 +86,13 @@ h5 {
 
 #algorithm-buttons-div{
     margin: auto;
-    width: 40%;
+    width: 50%;
     padding: 10px;
 }
 
 #README-and-summary-text-position{
     margin: auto;
-    width: 600px;
+    width: 700px;
     text-align: justify;
 }
 
@@ -105,8 +105,8 @@ h5 {
 }
 
 .form-center{
-  display:flex;
-  justify-content: center;
+    margin: auto;
+    width: 500px;
 }
 
 #visualization-submit-button {

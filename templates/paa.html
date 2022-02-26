@@ -46,8 +46,7 @@
     {% endif %}
     <div class="form-center">
         <form method="post">
-            <div class="form-group">
-            <label for="segments" style="font-size: 20px">Input the segments: </label>
+            <label for="segments">Input the segments: </label>
             <input
               type="number"
               class="form-control"
@@ -55,17 +54,16 @@
               name="segments"
               placeholder="Segments size (like: 5)"
             />
-
-            <label for="data" style="font-size: 20px">Input your data: </label>
-            <input
-              type="text"
-              class="form-control"
-              id="data"
-              name="data"
-              size=50
-              placeholder="1.43123, etc. (Split up by comma)"
-            />
-            </div>
+            <br>
+            <br>
+            <label for="data">Input your data: </label>
+            <textarea
+                type="text"
+                class="form-control"
+                id="data"
+                name="data"
+                placeholder="1.43123, etc. (Split up by comma)" rows="5" cols="60"></textarea>
+            <br>
             <br>
             <button id="visualization-submit-button" onclick="window.location.href='/visualization/PAA';">Submit your own data</button>
         </form>

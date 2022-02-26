@@ -46,8 +46,7 @@
     {% endif %}
     <div class="form-center">
         <form method="post">
-            <div class="form-group">
-            <label for="n_components">Input the segments: </label>
+            <label for="n_components">Input n_components: </label>
             <input
               type="number"
               class="form-control"
@@ -55,17 +54,15 @@
               name="n_components"
               placeholder="n components (like: 5)"
             />
-
+            <br>
             <label for="data">Input your data: </label>
-            <input
-              type="text"
-              class="form-control"
-              id="data"
-              name="data"
-              size=50
-              placeholder="1.43123, etc. (Split up by comma)"
-            />
-            </div>
+            <textarea
+                type="text"
+                class="form-control"
+                id="data"
+                name="data"
+                placeholder="1.43123, etc. (Split up by comma)" rows="5" cols="60"></textarea>
+            <br>
             <br>
             <button id="visualization-submit-button" onclick="window.location.href='/visualization/SVD';">Submit your own data</button>
         </form>
@@ -73,6 +70,7 @@
     <br>
 
     <button id="display-demo-button" onclick="window.location.href='/visualization/SVD';"> Display the previous demo</button>
+    <br>
     <table style="width:100%">
         <tr>
             <th>The original data</th>

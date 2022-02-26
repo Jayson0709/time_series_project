@@ -46,8 +46,7 @@
     {% endif %}
     <div class="form-center">
         <form method="post">
-            <div class="form-group">
-            <label for="n_coefficients">Input your data: </label>
+            <label for="n_coefficients">Input n_coefficients: </label>
             <input
               type="number"
               class="form-control"
@@ -56,16 +55,15 @@
               size=50
               placeholder="Such as 10"
             />
+            <br>
             <label for="data">Input your data: </label>
-            <input
-              type="text"
-              class="form-control"
-              id="data"
-              name="data"
-              size=50
-              placeholder="1.43123, etc. (Split up by comma)"
-            />
-            </div>
+            <textarea
+                type="text"
+                class="form-control"
+                id="data"
+                name="data"
+                placeholder="1.43123, etc. (Split up by comma)" rows="5" cols="60"></textarea>
+            <br>
             <br>
             <button id="visualization-submit-button" onclick="window.location.href='/visualization/DFT';">Submit your own data</button>
         </form>
