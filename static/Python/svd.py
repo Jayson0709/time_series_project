@@ -1,6 +1,6 @@
 # Singular Value Decomposition
 import numpy as np
-from scipy.linalg import svd
+from sklearn.decomposition import TruncatedSVD
 
 
 class SingularValueDecomposition:
@@ -8,17 +8,15 @@ class SingularValueDecomposition:
         pass
 
     @staticmethod
-    def transform(time_series_data, n_elements):
+    def transform(time_series_data, n_components):
         try:
+            length = len(time_series_data)
+            time_series_data = np.array(time_series_data)
+            time_series_data = np.reshape(time_series_data, (1, -1))
             # Singular Value Decomposition
-            U, s, VT = svd(time_series_data)
-            # create m x n Sigma matrix
-            Sigma = np.zeros((time_series_data.shape[0], time_series_data.shape[1]))
-            # populate Sigma with n x n diagonal matrix
-            Sigma[: time_series_data.shape[0], : time_series_data.shape[0]] = np.diag(s)
-            # select based on the input n_elements to do dimensionality reduction
-            Sigma = Sigma[:, : n_elements]
-            # Transform and return
-            return U @ Sigma
+            _svd = TruncatedSVD(n_components=n_components)
+            _svd.fit(time_series_data)
+            reduced_data = _svd.transform(time_series_data)
+            return [item for item in reduced_data[0] for _ in range(length // len(reduced_data))]
         except Exception as e:
             raise e

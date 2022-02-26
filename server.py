@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash
 import pandas as pd
+import numpy as np
 from pyecharts import options as opts
 from pyecharts.charts import Line
 from static.Python import apca
@@ -8,6 +9,7 @@ from static.Python import dwt
 from static.Python import paa
 from static.Python import pla
 from static.Python import svd
+from static.Python import sax
 from static.Python import constant_values
 import re
 
@@ -33,7 +35,7 @@ def validate_input_data(string):
     string = string.strip()
     if string[-1] == constant_values.COMMA:
         raise ValueError('Input data cannot end with comma.')
-    string.replace(constant_values.SPACE, constant_values.EMPTY_STRING)
+    string = string.replace(constant_values.SPACE, constant_values.EMPTY_STRING)
     if not re.match(r'^[0-9,]*$', string):
         raise ValueError('Input data can only contain space, comma, and numbers.')
     return string.split(constant_values.COMMA)
@@ -96,7 +98,7 @@ def apca_visualization():
                        y_axis=reduced_data,
                        symbol="emptyCircle",
                        is_symbol_show=True,
-                       is_smooth=True,
+                       is_step=True,
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.APCA_TITLE))
@@ -106,19 +108,24 @@ def apca_visualization():
 
 @app.route("/visualization/DFT", methods=['GET', 'POST'])
 def dft_visualization():
-    DFT = dft.DiscreteFourierTransformation()
+
     x_data = []
     y_data = []
     reduced_data = []
     show_demo_message = True
+    n_coefficients = None
     if request.method == 'GET':
+        n_coefficients = 30
+        DFT = dft.DiscreteFourierTransformation(n_coefficients)
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
         reduced_data = DFT.transform(y_data)
     elif request.method == 'POST':
         try:
+            n_coefficients = int(request.form.get(constant_values.STRING_N_COEFFICIENTS))
+            DFT = dft.DiscreteFourierTransformation(n_coefficients)
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
-            x_data = []
+            x_data = [i for i in range(len(y_data))]
             reduced_data = DFT.transform(y_data)
             show_demo_message = False
         except Exception as e:
@@ -137,12 +144,12 @@ def dft_visualization():
                        y_axis=reduced_data,
                        symbol="emptyCircle",
                        is_symbol_show=True,
-                       is_smooth=True,
+                       is_step=True,
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.DFT_TITLE))
     )
-    return render_template("dft.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, boolean_message=show_demo_message)
+    return render_template("dft.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, n_coefficients=n_coefficients,boolean_message=show_demo_message)
 
 
 @app.route("/visualization/DWT", methods=['GET', 'POST'])
@@ -159,7 +166,7 @@ def dwt_visualization():
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
-            x_data = []
+            x_data = [i for i in range(len(y_data))]
             reduced_data = DWT.haar_transformation(y_data)
             show_demo_message = False
         except Exception as e:
@@ -178,7 +185,7 @@ def dwt_visualization():
                        y_axis=reduced_data,
                        symbol="emptyCircle",
                        is_symbol_show=True,
-                       is_smooth=True,
+                       is_step=True,
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.DWT_TITLE))
@@ -196,7 +203,7 @@ def paa_visualization():
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
-        segments = 4
+        segments = 20
         PAA = paa.PiecewiseAggregateApproximation(segments)
         reduced_data = PAA.transform(y_data)
     elif request.method == 'POST':
@@ -223,7 +230,7 @@ def paa_visualization():
                        y_axis=reduced_data,
                        symbol="emptyCircle",
                        is_symbol_show=True,
-                       is_smooth=True,
+                       is_step=True,
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.PAA_TITLE))
@@ -267,7 +274,7 @@ def pla_visualization():
                        y_axis=reduced_data,
                        symbol="emptyCircle",
                        is_symbol_show=True,
-                       is_smooth=True,
+                       is_step=True,
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.PLA_TITLE))
@@ -281,18 +288,63 @@ def svd_visualization():
     x_data = []
     y_data = []
     reduced_data = []
-    n_elements = 5
+    n_components = 0
     show_demo_message = True
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
-        reduced_data = SVD.transform(y_data, n_elements)
+        n_components = 30
+        reduced_data = SVD.transform(y_data, n_components)
+    elif request.method == 'POST':
+        try:
+            y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
+            x_data = [i for i in range(len(y_data))]
+            n_components = int(request.form.get(constant_values.STRING_N_ELEMENTS))
+            reduced_data = SVD.transform(y_data, n_components)
+            show_demo_message = False
+        except Exception as e:
+            flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
+    line = (
+        Line()
+            .add_xaxis(xaxis_data=x_data)
+            .add_yaxis(series_name=constant_values.STRING_ORIGINAL_DATA,
+                       y_axis=y_data,
+                       symbol="emptyCircle",
+                       is_symbol_show=True,
+                       is_smooth=True,
+                       label_opts=opts.LabelOpts(is_show=False),
+                       )
+            .add_yaxis(series_name=constant_values.STRING_REDUCED_DATA,
+                       y_axis=reduced_data,
+                       symbol="emptyCircle",
+                       is_symbol_show=True,
+                       is_step=True,
+                       label_opts=opts.LabelOpts(is_show=False),
+                       )
+            .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.SVD_TITLE))
+    )
+    return render_template("svd.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, n_components=n_components, boolean_message=show_demo_message)
+
+
+@app.route("/visualization/SAX", methods=['GET', 'POST'])
+def sax_visualization():
+    SAX = sax.SymbolicAggregateApproximation()
+    x_data = []
+    y_data = []
+    reduced_data = []
+    n_elements = 0
+    show_demo_message = True
+    if request.method == 'GET':
+        x_data = [i for i in range(len(data[3]))]
+        y_data = np.array([data[3]])
+
+        reduced_data = SAX.transform(y_data, n_elements)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = []
             n_elements = int(request.form.get(constant_values.STRING_N_ELEMENTS))
-            reduced_data = SVD.transform(y_data, n_elements)
+            reduced_data = SAX.transform(y_data, n_elements)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
@@ -313,7 +365,7 @@ def svd_visualization():
                        is_smooth=True,
                        label_opts=opts.LabelOpts(is_show=False),
                        )
-            .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.SVD_TITLE))
+            .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.SAX_TITLE))
     )
     return render_template("svd.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, n_elements=n_elements, boolean_message=show_demo_message)
 

@@ -47,13 +47,13 @@
     <div class="form-center">
         <form method="post">
             <div class="form-group">
-            <label for="n_elements">Input the segments: </label>
+            <label for="n_components">Input the segments: </label>
             <input
               type="number"
               class="form-control"
-              id="n_elements"
-              name="n_elements"
-              placeholder="Top n (like: 5)"
+              id="n_components"
+              name="n_components"
+              placeholder="n components (like: 5)"
             />
 
             <label for="data">Input your data: </label>
@@ -83,8 +83,8 @@
             <th>{{ reduced_data }}</th>
         </tr>
         <tr>
-            <th>Segments</th>
-            <th>{{ n_elements }}</th>
+            <th>N components</th>
+            <th>{{ n_components }}</th>
         </tr>
     </table>
 </body>
