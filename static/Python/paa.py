@@ -45,6 +45,12 @@ class PiecewiseAggregateApproximation:
                     k += 1
                 reduced_data[self.segments - 1] = round(local_sum / segment_size, 3)
             paa_dataset = [item for item in reduced_data for _ in range(length // len(reduced_data))]
+            if len(paa_dataset) > length:
+                paa_dataset = paa_dataset[:length]
+            elif len(paa_dataset) < length:
+                exceed = length - len(paa_dataset)
+                for _ in range(exceed):
+                    paa_dataset.append(paa_dataset[-1])
             return paa_dataset
         except Exception as e:
             raise e

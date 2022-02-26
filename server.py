@@ -159,15 +159,16 @@ def dwt_visualization():
     y_data = []
     reduced_data = []
     show_demo_message = True
+    coefficients = None
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
-        reduced_data = DWT.haar_transformation(y_data)
+        reduced_data, coefficients = DWT.haar_transformation(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
-            reduced_data = DWT.haar_transformation(y_data)
+            reduced_data, coefficients = DWT.haar_transformation(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
@@ -190,7 +191,7 @@ def dwt_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.DWT_TITLE))
     )
-    return render_template("dwt.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, boolean_message=show_demo_message)
+    return render_template("dwt.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, coefficients=coefficients, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/PAA", methods=['GET', 'POST'])
@@ -328,7 +329,7 @@ def svd_visualization():
 
 @app.route("/visualization/SAX", methods=['GET', 'POST'])
 def sax_visualization():
-    SAX = sax.SymbolicAggregateApproximation()
+    SAX = sax.OneDSymbolicAggregateApproximation()
     x_data = []
     y_data = []
     reduced_data = []
@@ -337,14 +338,13 @@ def sax_visualization():
     if request.method == 'GET':
         x_data = [i for i in range(len(data[3]))]
         y_data = np.array([data[3]])
-
-        reduced_data = SAX.transform(y_data, n_elements)
+        reduced_data = SAX.transform(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
-            x_data = []
+            x_data = [i for i in range(len(y_data))]
             n_elements = int(request.form.get(constant_values.STRING_N_ELEMENTS))
-            reduced_data = SAX.transform(y_data, n_elements)
+            reduced_data = SAX.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
