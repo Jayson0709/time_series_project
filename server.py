@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, flash
 import pandas as pd
-import numpy as np
 from pyecharts import options as opts
 from pyecharts.charts import Line
 from static.Python import apca
@@ -9,7 +8,7 @@ from static.Python import dwt
 from static.Python import paa
 from static.Python import pla
 from static.Python import svd
-from static.Python import sax
+from static.Python import one_d_sax
 from static.Python import constant_values
 import re
 
@@ -71,13 +70,13 @@ def apca_visualization():
     if request.method == 'GET':
         segments = 12
         APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
-        x_data = []
         y_data = data[3]
+        x_data = [i for i in range(len(y_data))]
         reduced_data = APCA.transform(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
-            x_data = []
+            x_data = [i for i in range(len(y_data))]
             segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
             reduced_data = APCA.transform(y_data)
@@ -108,7 +107,6 @@ def apca_visualization():
 
 @app.route("/visualization/DFT", methods=['GET', 'POST'])
 def dft_visualization():
-
     x_data = []
     y_data = []
     reduced_data = []
@@ -117,8 +115,8 @@ def dft_visualization():
     if request.method == 'GET':
         n_coefficients = 30
         DFT = dft.DiscreteFourierTransformation(n_coefficients)
-        x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
+        x_data = [i for i in range(len(y_data))]
         reduced_data = DFT.transform(y_data)
     elif request.method == 'POST':
         try:
@@ -161,8 +159,8 @@ def dwt_visualization():
     show_demo_message = True
     coefficients = None
     if request.method == 'GET':
-        x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
+        x_data = [i for i in range(len(y_data))]
         reduced_data, coefficients = DWT.haar_transformation(y_data)
     elif request.method == 'POST':
         try:
@@ -202,8 +200,8 @@ def paa_visualization():
     segments = None
     show_demo_message = True
     if request.method == 'GET':
-        x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
+        x_data = [i for i in range(len(y_data))]
         segments = 20
         PAA = paa.PiecewiseAggregateApproximation(segments)
         reduced_data = PAA.transform(y_data)
@@ -247,14 +245,14 @@ def pla_visualization():
     segments = 10
     show_demo_message = True
     if request.method == 'GET':
-        x_data = [i for i in range(len(data[3]))]
         y_data = data[3][1:]
+        x_data = [i for i in range(len(y_data))]
         PLA = pla.PiecewiseLinearAggregateApproximation(segments)
         reduced_data = PLA.transform(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
-            x_data = []
+            x_data = [i for i in range(len(y_data))]
             segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             PLA = pla.PiecewiseLinearAggregateApproximation(segments)
             reduced_data = PLA.transform(y_data)
@@ -292,8 +290,8 @@ def svd_visualization():
     n_components = 0
     show_demo_message = True
     if request.method == 'GET':
-        x_data = [i for i in range(len(data[3]))]
         y_data = data[3]
+        x_data = [i for i in range(len(y_data))]
         n_components = 30
         reduced_data = SVD.transform(y_data, n_components)
     elif request.method == 'POST':
@@ -327,24 +325,32 @@ def svd_visualization():
     return render_template("svd.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, n_components=n_components, boolean_message=show_demo_message)
 
 
-@app.route("/visualization/SAX", methods=['GET', 'POST'])
-def sax_visualization():
-    SAX = sax.OneDSymbolicAggregateApproximation()
+@app.route("/visualization/ONE_D_SAX", methods=['GET', 'POST'])
+def one_d_sax_visualization():
     x_data = []
     y_data = []
     reduced_data = []
-    n_elements = 0
+    segments = None
+    n_sax_symbols_avg = None
+    n_sax_symbols_slope = None
     show_demo_message = True
     if request.method == 'GET':
-        x_data = [i for i in range(len(data[3]))]
-        y_data = np.array([data[3]])
-        reduced_data = SAX.transform(y_data)
+        y_data = data[3]
+        x_data = [i for i in range(len(y_data))]
+        segments = 10
+        n_sax_symbols_avg = 8
+        n_sax_symbols_slope = 8
+        ONE_D_SAX = one_d_sax.OneDSymbolicAggregateApproximation(segments, n_sax_symbols_avg, n_sax_symbols_slope)
+        reduced_data = ONE_D_SAX.transform(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
-            n_elements = int(request.form.get(constant_values.STRING_N_ELEMENTS))
-            reduced_data = SAX.transform(y_data)
+            segments = int(request.form.get(constant_values.STRING_SEGMENTS))
+            n_sax_symbols_avg = int(request.form.get(constant_values.STRING_N_SAX_SYMBOLS_AVG))
+            n_sax_symbols_slope = int(request.form.get(constant_values.STRING_N_SAX_SYMBOLS_SLOPE))
+            ONE_D_SAX = one_d_sax.OneDSymbolicAggregateApproximation(segments, n_sax_symbols_avg, n_sax_symbols_slope)
+            reduced_data = ONE_D_SAX.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
@@ -362,12 +368,12 @@ def sax_visualization():
                        y_axis=reduced_data,
                        symbol="emptyCircle",
                        is_symbol_show=True,
-                       is_smooth=True,
+                       is_step=True,
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.SAX_TITLE))
     )
-    return render_template("svd.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, n_elements=n_elements, boolean_message=show_demo_message)
+    return render_template("one_d_sax.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, segments=segments, n_sax_symbols_avg=n_sax_symbols_avg, n_sax_symbols_slope=n_sax_symbols_slope, boolean_message=show_demo_message)
 
 
 if __name__ == "__main__":
