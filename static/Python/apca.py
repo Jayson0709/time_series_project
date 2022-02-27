@@ -1,6 +1,6 @@
 # Adaptive Piecewise Constant Approximation
 import numpy as np
-from sortedcontainers import SortedSet
+from pytreemap import TreeSet
 
 
 class Segment:
@@ -18,6 +18,15 @@ class Segment:
         self.mean = mean
         self.error = error
         self.error_with_next = np.Inf
+
+    @staticmethod
+    def comparator(segment1, segment2):
+        if segment1.error_with_next == segment2.error_with_next:
+            return 0
+        elif segment1.error_with_next > segment2.error_with_next:
+            return 1
+        elif segment1.error_with_next < segment2.error_with_next:
+            return -1
 
 
 class AdaptivePiecewiseConstantApproximation:
@@ -54,10 +63,8 @@ class AdaptivePiecewiseConstantApproximation:
 
     def create_segment_set(self, values, first_segment):
         try:
-            print('Inside create_segment_set')
-            segment_set = SortedSet()
+            segment_set = TreeSet(comparator=Segment.comparator)
             current = first_segment
-            print('current segment:', current)
             while current.next is not None:
                 mean = self.get_unified_mean(current, current.next)
                 current.error_with_next = self.get_unified_error(current, current.next, values, mean)
@@ -122,38 +129,35 @@ class AdaptivePiecewiseConstantApproximation:
             num_of_segments = length // 2
             first_segment = self.create_segments(time_series_data, length)
             if num_of_segments > self.segments:
-                print('before creating segment_set')
                 segment_set = self.create_segment_set(time_series_data, first_segment)
-                print('segment_set is :', segment_set)
                 while num_of_segments > self.segments:
-                    min_segment = segment_set.pop(0)  # Get the first(lowest) element
+                    min_segment = segment_set.poll_first()  # Get the first(lowest) element
                     min_segment.mean = self.get_unified_mean(min_segment, min_segment.next)
                     min_segment.error = self.get_unified_error(min_segment, min_segment.next, time_series_data, min_segment.mean)
                     min_segment.end = min_segment.next.end
-
                     self.delete_subsequent_segment(min_segment, segment_set)
-
                     if min_segment.next is not None:
                         mean = self.get_unified_mean(min_segment, min_segment.next)
-                        min_segment.error_with_next = self.get_unified_error(min_segment, min_segment.next, time_series_data,
-                                                                             mean)
-
+                        min_segment.error_with_next = self.get_unified_error(min_segment, min_segment.next, time_series_data, mean)
                     if min_segment.prev is not None:
                         segment_set.remove(min_segment.prev)
-                        mean = self.get_unified_mean(min_segment.mean, min_segment)
+                        mean = self.get_unified_mean(min_segment.prev, min_segment)
                         min_segment.prev.error_with_next = self.get_unified_error(min_segment.prev, min_segment,
                                                                                   time_series_data, mean)
                         segment_set.add(min_segment.prev)
-
                     num_of_segments -= 1
-            return self.get_mean_last_pairs(first_segment, num_of_segments)
+            reduced_data = self.get_mean_last_pairs(first_segment, num_of_segments)
+            apca_dataset = []
+            for pair in reduced_data:
+                temp_length = len(apca_dataset)
+                for _ in range(pair[1] - temp_length):
+                    apca_dataset.append(pair[0])
+            if len(apca_dataset) > length:
+                apca_dataset = apca_dataset[:length]
+            elif len(apca_dataset) < length:
+                exceed = length - len(apca_dataset)
+                for _ in range(exceed):
+                    apca_dataset.append(apca_dataset[-1])
+            return apca_dataset, reduced_data
         except Exception as e:
-            print(e)
-            # raise e
-
-
-test = [1, 1, 4, 5, 1, 0, 1, 2, 1]
-apca = AdaptivePiecewiseConstantApproximation(3)
-result = apca.transform(test)
-# TODO address the NoneType issue
-print(result)
+            raise e
