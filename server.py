@@ -64,22 +64,23 @@ def visualization():
 def apca_visualization():
     x_data = []
     y_data = []
+    apca_dataset = []
     reduced_data = []
     show_demo_message = True
     segments = None
     if request.method == 'GET':
-        segments = 12
+        segments = 30
         APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
         y_data = data[3]
         x_data = [i for i in range(len(y_data))]
-        reduced_data = APCA.transform(y_data)
+        apca_dataset, reduced_data = APCA.transform(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
             segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
-            reduced_data = APCA.transform(y_data)
+            apca_dataset, reduced_data = APCA.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
@@ -94,7 +95,7 @@ def apca_visualization():
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .add_yaxis(series_name=constant_values.STRING_REDUCED_DATA,
-                       y_axis=reduced_data,
+                       y_axis=apca_dataset,
                        symbol="emptyCircle",
                        is_symbol_show=True,
                        is_step=True,
@@ -155,18 +156,19 @@ def dwt_visualization():
     DWT = dwt.DiscreteHaarWaveletTransformation()
     x_data = []
     y_data = []
+    dwt_dataset = []
     reduced_data = []
-    show_demo_message = True
     coefficients = None
+    show_demo_message = True
     if request.method == 'GET':
         y_data = data[3]
         x_data = [i for i in range(len(y_data))]
-        reduced_data, coefficients = DWT.haar_transformation(y_data)
+        dwt_dataset, reduced_data, coefficients = DWT.haar_transformation(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
-            reduced_data, coefficients = DWT.haar_transformation(y_data)
+            dwt_dataset, reduced_data, coefficients = DWT.haar_transformation(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
@@ -181,7 +183,7 @@ def dwt_visualization():
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .add_yaxis(series_name=constant_values.STRING_REDUCED_DATA,
-                       y_axis=reduced_data,
+                       y_axis=dwt_dataset,
                        symbol="emptyCircle",
                        is_symbol_show=True,
                        is_step=True,
@@ -197,6 +199,7 @@ def paa_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    paa_dataset = []
     segments = None
     show_demo_message = True
     if request.method == 'GET':
@@ -204,14 +207,14 @@ def paa_visualization():
         x_data = [i for i in range(len(y_data))]
         segments = 20
         PAA = paa.PiecewiseAggregateApproximation(segments)
-        reduced_data = PAA.transform(y_data)
+        paa_dataset, reduced_data = PAA.transform(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
             segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             PAA = paa.PiecewiseAggregateApproximation(segments)
-            reduced_data = PAA.transform(y_data)
+            paa_dataset, reduced_data = PAA.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
@@ -226,7 +229,7 @@ def paa_visualization():
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .add_yaxis(series_name=constant_values.STRING_REDUCED_DATA,
-                       y_axis=reduced_data,
+                       y_axis=paa_dataset,
                        symbol="emptyCircle",
                        is_symbol_show=True,
                        is_step=True,
@@ -238,10 +241,12 @@ def paa_visualization():
 
 
 @app.route("/visualization/PLA", methods=['GET', 'POST'])
+#TODO visualizate the dataset
 def pla_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    pla_dataset = []
     segments = 10
     show_demo_message = True
     if request.method == 'GET':
@@ -270,7 +275,7 @@ def pla_visualization():
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .add_yaxis(series_name=constant_values.STRING_REDUCED_DATA,
-                       y_axis=reduced_data,
+                       y_axis=pla_dataset,
                        symbol="emptyCircle",
                        is_symbol_show=True,
                        is_step=True,
@@ -287,19 +292,20 @@ def svd_visualization():
     x_data = []
     y_data = []
     reduced_data = []
+    svd_dataset = []
     n_components = 0
     show_demo_message = True
     if request.method == 'GET':
         y_data = data[3]
         x_data = [i for i in range(len(y_data))]
         n_components = 30
-        reduced_data = SVD.transform(y_data, n_components)
+        svd_dataset, reduced_data = SVD.transform(y_data, n_components)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
             n_components = int(request.form.get(constant_values.STRING_N_ELEMENTS))
-            reduced_data = SVD.transform(y_data, n_components)
+            svd_dataset, reduced_data = SVD.transform(y_data, n_components)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
@@ -314,7 +320,7 @@ def svd_visualization():
                        label_opts=opts.LabelOpts(is_show=False),
                        )
             .add_yaxis(series_name=constant_values.STRING_REDUCED_DATA,
-                       y_axis=reduced_data,
+                       y_axis=svd_dataset,
                        symbol="emptyCircle",
                        is_symbol_show=True,
                        is_step=True,

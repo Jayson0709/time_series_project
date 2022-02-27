@@ -51,6 +51,6 @@ class PiecewiseAggregateApproximation:
                 exceed = length - len(paa_dataset)
                 for _ in range(exceed):
                     paa_dataset.append(paa_dataset[-1])
-            return paa_dataset
+            return paa_dataset, reduced_data
         except Exception as e:
             raise e

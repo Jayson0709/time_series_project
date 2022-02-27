@@ -17,6 +17,6 @@ class SingularValueDecomposition:
             _svd = TruncatedSVD(n_components=n_components)
             _svd.fit(time_series_data)
             reduced_data = _svd.transform(time_series_data)
-            return [item for item in reduced_data[0] for _ in range(length // len(reduced_data))]
+            return [item for item in reduced_data[0] for _ in range(length // len(reduced_data))], reduced_data[0]
         except Exception as e:
             raise e

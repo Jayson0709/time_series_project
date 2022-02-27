@@ -21,6 +21,6 @@ class DiscreteHaarWaveletTransformation:
                 exceed = length - len(dwt_dataset)
                 for _ in range(exceed):
                     dwt_dataset.append(dwt_dataset[-1])
-            return dwt_dataset, coefficients
+            return dwt_dataset, reduced_data, coefficients
         except Exception as e:
             raise e
