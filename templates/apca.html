@@ -23,14 +23,18 @@
     <button id="go-back-button" onclick="window.location.href='/visualization';">Go back to visualization page</button>
     <div id="main"></div>
     <script type="text/javascript">
-        let myChart = echarts.init(document.getElementById('main'));
-        let option = {{ line_options | safe }};
+        const myChart = echarts.init(document.getElementById('main'));
+        const option = {{ line_options | safe }};
 
         // display the chart based on the options passed from the function.
         myChart.setOption(option);
     </script>
 
-    <br>
+    <p style="text-align: center; color: dodgerblue">
+        The Euclidean distance between two sequences is: <b>{{ euclidean_distance }}</b>.
+        <br>
+        The Dynamic Time Warping distance between two sequences is: <b>{{ dtw_distance }}</b>.
+    </p>
     {% if boolean_message %}
         <br>
         <p style="text-align: center; color: chocolate; font-size: 18px">
@@ -56,6 +60,7 @@
               placeholder="Segments size (like: 5)"
             />
             <br>
+            <br>
             <label for="data">Input your data: </label>
             <textarea
                 type="text"
@@ -71,7 +76,7 @@
     <br>
     <button id="display-demo-button" onclick="window.location.href='/visualization/APCA';"> Display the previous demo</button>
     <br>
-    <table style="width:100%">
+    <table style="width:70%">
         <tr>
             <th>The original data</th>
             <th>{{ original_data }}</th>
@@ -83,6 +88,10 @@
         <tr>
             <th>Segments</th>
             <th>{{ segments }}</th>
+        </tr>
+        <tr>
+            <th>Dynamic time warping path</th>
+            <th>{{ warp_path }}</th>
         </tr>
     </table>
 </body>

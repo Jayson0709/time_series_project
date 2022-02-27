@@ -11,6 +11,8 @@ from static.Python import svd
 from static.Python import one_d_sax
 from static.Python import constant_values
 import re
+from fastdtw import fastdtw
+from scipy.spatial.distance import euclidean
 
 # Get the demo data from the datasets
 file_path = r"./datasets/Beef_TRAIN"
@@ -38,6 +40,19 @@ def validate_input_data(string):
     if not re.match(r'^[0-9,]*$', string):
         raise ValueError('Input data can only contain space, comma, and numbers.')
     return string.split(constant_values.COMMA)
+
+
+# Implement similarity search on two sets of time series data, calculate the accuracy based on Euclidean distance
+def graph_accuracy_based_on_ed(raw_dataset, transformed_dataset):
+    euclidean_distance = 0.0
+    for i in range(len(raw_dataset)):
+        euclidean_distance += abs(raw_dataset[i] - transformed_dataset[i])
+    return euclidean_distance
+
+
+# Implement similarity search on two sets of time series data, calculate the accuracy based on Dynamic Time Warping
+def graph_accuracy_based_on_dtw(raw_dataset, transformed_dataset):
+    return fastdtw(raw_dataset, transformed_dataset, dist=euclidean)
 
 
 @app.route("/")
@@ -84,6 +99,8 @@ def apca_visualization():
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
+    euclidean_distance = graph_accuracy_based_on_ed(y_data, apca_dataset)
+    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, apca_dataset)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -103,7 +120,9 @@ def apca_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.APCA_TITLE))
     )
-    return render_template("apca.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, segments=segments, boolean_message=show_demo_message)
+    return render_template("apca.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
+                           segments=segments, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
+                           warp_path=warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/DFT", methods=['GET', 'POST'])
@@ -129,6 +148,8 @@ def dft_visualization():
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
+    euclidean_distance = graph_accuracy_based_on_ed(y_data, reduced_data)
+    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, reduced_data)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -148,7 +169,9 @@ def dft_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.DFT_TITLE))
     )
-    return render_template("dft.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, n_coefficients=n_coefficients,boolean_message=show_demo_message)
+    return render_template("dft.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
+                           euclidean_distance=euclidean_distance, dtw_distance=dtw_distance, warp_path=warp_path,
+                           n_coefficients=n_coefficients, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/DWT", methods=['GET', 'POST'])
@@ -172,6 +195,8 @@ def dwt_visualization():
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
+    euclidean_distance = graph_accuracy_based_on_ed(y_data, dwt_dataset)
+    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, dwt_dataset)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -191,7 +216,9 @@ def dwt_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.DWT_TITLE))
     )
-    return render_template("dwt.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, coefficients=coefficients, boolean_message=show_demo_message)
+    return render_template("dwt.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
+                           coefficients=coefficients, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
+                           warp_path=warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/PAA", methods=['GET', 'POST'])
@@ -218,6 +245,8 @@ def paa_visualization():
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
+    euclidean_distance = graph_accuracy_based_on_ed(y_data, paa_dataset)
+    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, paa_dataset)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -237,7 +266,9 @@ def paa_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.PAA_TITLE))
     )
-    return render_template("paa.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, segments=segments, boolean_message=show_demo_message)
+    return render_template("paa.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
+                           segments=segments, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
+                           warp_path=warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/PLA", methods=['GET', 'POST'])
@@ -264,6 +295,8 @@ def pla_visualization():
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
+    euclidean_distance = graph_accuracy_based_on_ed(y_data, pla_dataset)
+    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, pla_dataset)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -283,7 +316,9 @@ def pla_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.PLA_TITLE))
     )
-    return render_template("pla.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, segments=segments, boolean_message=show_demo_message)
+    return render_template("pla.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
+                           segments=segments, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
+                           warp_path=warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/SVD", methods=['GET', 'POST'])
@@ -309,6 +344,8 @@ def svd_visualization():
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
+    euclidean_distance = graph_accuracy_based_on_ed(y_data, svd_dataset)
+    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, svd_dataset)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -328,7 +365,9 @@ def svd_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.SVD_TITLE))
     )
-    return render_template("svd.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, n_components=n_components, boolean_message=show_demo_message)
+    return render_template("svd.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
+                           n_components=n_components, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
+                           warp_path=warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/ONE_D_SAX", methods=['GET', 'POST'])
@@ -360,6 +399,8 @@ def one_d_sax_visualization():
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
+    euclidean_distance = graph_accuracy_based_on_ed(y_data, reduced_data)
+    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, reduced_data)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -379,7 +420,9 @@ def one_d_sax_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.SAX_TITLE))
     )
-    return render_template("one_d_sax.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data, segments=segments, n_sax_symbols_avg=n_sax_symbols_avg, n_sax_symbols_slope=n_sax_symbols_slope, boolean_message=show_demo_message)
+    return render_template("one_d_sax.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
+                           segments=segments, n_sax_symbols_avg=n_sax_symbols_avg, n_sax_symbols_slope=n_sax_symbols_slope,
+                           euclidean_distance=euclidean_distance, dtw_distance=dtw_distance, warp_path=warp_path, boolean_message=show_demo_message)
 
 
 if __name__ == "__main__":

@@ -10,3 +10,4 @@ sortedcontainers~=2.4.0
 tslearn~=0.5.2
 sklearn~=0.0
 pytreemap~=0.5.1
+fastdtw~=0.3.4

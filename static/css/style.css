@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300");
+
 code {
     background-color: aliceblue;
 }
@@ -195,5 +197,11 @@ h5 {
 
 table, th{
     border: 1px solid black;
+    word-break: keep-all;
+    margin: auto;
+}
+
+body {
+    background: lightyellow;
 }
 
