@@ -66,12 +66,12 @@ def apca_visualization():
     y_data = []
     apca_dataset = []
     reduced_data = []
-    show_demo_message = True
     segments = None
+    show_demo_message = True
     if request.method == 'GET':
         segments = 30
         APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
-        y_data = data[3]
+        y_data = data[1]
         x_data = [i for i in range(len(y_data))]
         apca_dataset, reduced_data = APCA.transform(y_data)
     elif request.method == 'POST':
@@ -116,7 +116,7 @@ def dft_visualization():
     if request.method == 'GET':
         n_coefficients = 30
         DFT = dft.DiscreteFourierTransformation(n_coefficients)
-        y_data = data[3]
+        y_data = data[2]
         x_data = [i for i in range(len(y_data))]
         reduced_data = DFT.transform(y_data)
     elif request.method == 'POST':
@@ -158,7 +158,7 @@ def dwt_visualization():
     y_data = []
     dwt_dataset = []
     reduced_data = []
-    coefficients = None
+    coefficients = []
     show_demo_message = True
     if request.method == 'GET':
         y_data = data[3]
@@ -203,7 +203,7 @@ def paa_visualization():
     segments = None
     show_demo_message = True
     if request.method == 'GET':
-        y_data = data[3]
+        y_data = data[4]
         x_data = [i for i in range(len(y_data))]
         segments = 20
         PAA = paa.PiecewiseAggregateApproximation(segments)
@@ -241,26 +241,26 @@ def paa_visualization():
 
 
 @app.route("/visualization/PLA", methods=['GET', 'POST'])
-#TODO visualizate the dataset
 def pla_visualization():
     x_data = []
     y_data = []
     reduced_data = []
     pla_dataset = []
-    segments = 10
+    segments = None
     show_demo_message = True
     if request.method == 'GET':
-        y_data = data[3][1:]
+        y_data = data[10][1:]
         x_data = [i for i in range(len(y_data))]
+        segments = 10
         PLA = pla.PiecewiseLinearAggregateApproximation(segments)
-        reduced_data = PLA.transform(y_data)
+        pla_dataset, reduced_data = PLA.transform(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
             segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             PLA = pla.PiecewiseLinearAggregateApproximation(segments)
-            reduced_data = PLA.transform(y_data)
+            pla_dataset, reduced_data = PLA.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
@@ -293,10 +293,10 @@ def svd_visualization():
     y_data = []
     reduced_data = []
     svd_dataset = []
-    n_components = 0
+    n_components = None
     show_demo_message = True
     if request.method == 'GET':
-        y_data = data[3]
+        y_data = data[5]
         x_data = [i for i in range(len(y_data))]
         n_components = 30
         svd_dataset, reduced_data = SVD.transform(y_data, n_components)
@@ -341,7 +341,7 @@ def one_d_sax_visualization():
     n_sax_symbols_slope = None
     show_demo_message = True
     if request.method == 'GET':
-        y_data = data[3]
+        y_data = data[6]
         x_data = [i for i in range(len(y_data))]
         segments = 10
         n_sax_symbols_avg = 8

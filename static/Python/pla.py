@@ -48,8 +48,10 @@ class PiecewiseLinearAggregateApproximation:
                 covariance = self.calculate_covariance(x, y, True)
                 mean = np.mean(y)
                 reduced_data[i] = [mean, covariance / variance]
-
-            # each of element of the array will be like a list of [mean, slope]
-            return reduced_data
+            pla_dataset = []
+            for i in range(self.segments):
+                for j in range(i * segment_size, (i + 1) * segment_size):
+                    pla_dataset.append(reduced_data[i][1] * j + reduced_data[i][0])
+            return pla_dataset, reduced_data
         except Exception as e:
             raise e
