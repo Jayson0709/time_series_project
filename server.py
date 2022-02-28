@@ -418,7 +418,7 @@ def one_d_sax_visualization():
                        is_step=True,
                        label_opts=opts.LabelOpts(is_show=False),
                        )
-            .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.SAX_TITLE))
+            .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.ONE_D_SAX_TITLE))
     )
     return render_template("one_d_sax.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
                            segments=segments, n_sax_symbols_avg=n_sax_symbols_avg, n_sax_symbols_slope=n_sax_symbols_slope,
