@@ -210,7 +210,7 @@ body {
   width: 100%;
   padding: 4% 2%;
   box-sizing: border-box;
-  height: 60vh;
+  height: 65vh;
 }
 
 .box_for_visualization_page{
@@ -223,8 +223,8 @@ body {
 }
 
 .box_for_visualization_page > img {
-  width: 200%;
-  height: calc(100% - 10vh);
+  width: 250%;
+  height: calc(100% - 7.5vh);
   object-fit: cover;
   transition: .5s;
 }
@@ -237,7 +237,7 @@ body {
   line-height: 2.6;
 }
 
-.box_for_visualization_page:hover { flex: 1 1 80%; }
+.box_for_visualization_page:hover { flex: 1 1 100%; }
 .box_for_visualization_page:hover > img {
   width: 100%;
   height: 100%;
