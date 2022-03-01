@@ -42,7 +42,7 @@ h5 {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 60%;
 }
 
 #page-intro{
@@ -241,4 +241,19 @@ body {
 .box_for_visualization_page:hover > img {
   width: 100%;
   height: 100%;
+}
+
+#code_structure_div{
+    border: 4px solid #D1D5DB;
+    margin: auto;
+    padding-left: 50px;
+}
+
+#code_structure{
+    color: black;
+}
+
+.tab {
+    display: inline-block;
+    margin-left: 45px;
 }
