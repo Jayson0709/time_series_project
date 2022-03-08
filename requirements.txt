@@ -12,3 +12,5 @@ sklearn~=0.0
 pytreemap~=0.5.1
 fastdtw~=0.3.4
 memory_profiler~=0.60.0
+scikit-learn~=0.24.2
+matplotlib~=3.3.4
