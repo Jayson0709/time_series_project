@@ -14,6 +14,7 @@ import re
 from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
 from dtaidistance import dtw_visualisation as dtw_vis
+import numpy as np
 
 # Get the demo data from the datasets
 file_path = r"./datasets/Beef_TRAIN"
@@ -22,6 +23,14 @@ data = pd.read_csv(file_path, header=None).to_numpy()
 
 # Initiate the app
 app = Flask(__name__)
+
+
+def denoise_data_using_fft(series):
+    f_hat = np.fft.rfft(series)
+    threshold = 1e8
+    frequencies = np.fft.rfftfreq(len(series), d=20e-3/len(series))
+    f_hat[frequencies > threshold] = 0
+    return np.fft.irfft(f_hat)
 
 
 def validate_input_segments(string):
@@ -97,6 +106,7 @@ def apca_visualization():
         APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
         y_data = data[1]
         x_data = [i for i in range(len(y_data))]
+        y_data = denoise_data_using_fft(y_data)
         apca_dataset, reduced_data = APCA.transform(y_data)
     elif request.method == 'POST':
         try:
@@ -104,12 +114,13 @@ def apca_visualization():
             x_data = [i for i in range(len(y_data))]
             segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
+            y_data = denoise_data_using_fft(y_data)
             apca_dataset, reduced_data = APCA.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, apca_dataset)
-    euclidean_match_path = [(x, x) for x in x_data]
+    euclidean_match_path = [(x, x) for x in range(len(y_data))]
     draw_euclidean_matching_graph(y_data, apca_dataset, euclidean_match_path)
     dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, apca_dataset)
     draw_dtw_matching_graph(y_data, apca_dataset, dtw_warp_path)
@@ -149,6 +160,7 @@ def dft_visualization():
         DFT = dft.DiscreteFourierTransformation(n_coefficients)
         y_data = data[2]
         x_data = [i for i in range(len(y_data))]
+        y_data = denoise_data_using_fft(y_data)
         reduced_data = DFT.transform(y_data)
     elif request.method == 'POST':
         try:
@@ -156,12 +168,13 @@ def dft_visualization():
             DFT = dft.DiscreteFourierTransformation(n_coefficients)
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
+            y_data = denoise_data_using_fft(y_data)
             reduced_data = DFT.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, reduced_data)
-    euclidean_match_path = [(x, x) for x in x_data]
+    euclidean_match_path = [(x, x) for x in range(len(y_data))]
     draw_euclidean_matching_graph(y_data, reduced_data, euclidean_match_path)
     dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, reduced_data)
     draw_dtw_matching_graph(y_data, reduced_data, dtw_warp_path)
@@ -201,17 +214,19 @@ def dwt_visualization():
     if request.method == 'GET':
         y_data = data[3]
         x_data = [i for i in range(len(y_data))]
+        y_data = denoise_data_using_fft(y_data)
         dwt_dataset, reduced_data, coefficients = DWT.haar_transformation(y_data)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
+            y_data = denoise_data_using_fft(y_data)
             dwt_dataset, reduced_data, coefficients = DWT.haar_transformation(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, dwt_dataset)
-    euclidean_match_path = [(x, x) for x in x_data]
+    euclidean_match_path = [(x, x) for x in range(len(y_data))]
     draw_euclidean_matching_graph(y_data, dwt_dataset, euclidean_match_path)
     dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, dwt_dataset)
     draw_dtw_matching_graph(y_data, dwt_dataset, dtw_warp_path)
@@ -252,6 +267,7 @@ def paa_visualization():
         x_data = [i for i in range(len(y_data))]
         segments = 20
         PAA = paa.PiecewiseAggregateApproximation(segments)
+        y_data = denoise_data_using_fft(y_data)
         paa_dataset, reduced_data = PAA.transform(y_data)
     elif request.method == 'POST':
         try:
@@ -259,12 +275,13 @@ def paa_visualization():
             x_data = [i for i in range(len(y_data))]
             segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             PAA = paa.PiecewiseAggregateApproximation(segments)
+            y_data = denoise_data_using_fft(y_data)
             paa_dataset, reduced_data = PAA.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, paa_dataset)
-    euclidean_match_path = [(x, x) for x in x_data]
+    euclidean_match_path = [(x, x) for x in range(len(y_data))]
     draw_euclidean_matching_graph(y_data, paa_dataset, euclidean_match_path)
     dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, paa_dataset)
     draw_dtw_matching_graph(y_data, paa_dataset, dtw_warp_path)
@@ -305,6 +322,7 @@ def pla_visualization():
         x_data = [i for i in range(len(y_data))]
         segments = 10
         PLA = pla.PiecewiseLinearAggregateApproximation(segments)
+        y_data = denoise_data_using_fft(y_data)
         pla_dataset, reduced_data = PLA.transform(y_data)
     elif request.method == 'POST':
         try:
@@ -312,12 +330,13 @@ def pla_visualization():
             x_data = [i for i in range(len(y_data))]
             segments = validate_input_segments(request.form.get(constant_values.STRING_SEGMENTS))
             PLA = pla.PiecewiseLinearAggregateApproximation(segments)
+            y_data = denoise_data_using_fft(y_data)
             pla_dataset, reduced_data = PLA.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, pla_dataset)
-    euclidean_match_path = [(x, x) for x in x_data]
+    euclidean_match_path = [(x, x) for x in range(len(y_data))]
     draw_euclidean_matching_graph(y_data, pla_dataset, euclidean_match_path)
     dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, pla_dataset)
     draw_dtw_matching_graph(y_data, pla_dataset, dtw_warp_path)
@@ -358,18 +377,20 @@ def svd_visualization():
         y_data = data[5]
         x_data = [i for i in range(len(y_data))]
         n_components = 30
+        y_data = denoise_data_using_fft(y_data)
         svd_dataset, reduced_data = SVD.transform(y_data, n_components)
     elif request.method == 'POST':
         try:
             y_data = [float(i) for i in validate_input_data(request.form.get(constant_values.STRING_DATA))]
             x_data = [i for i in range(len(y_data))]
             n_components = int(request.form.get(constant_values.STRING_N_ELEMENTS))
+            y_data = denoise_data_using_fft(y_data)
             svd_dataset, reduced_data = SVD.transform(y_data, n_components)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, svd_dataset)
-    euclidean_match_path = [(x, x) for x in x_data]
+    euclidean_match_path = [(x, x) for x in range(len(y_data))]
     draw_euclidean_matching_graph(y_data, svd_dataset, euclidean_match_path)
     dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, svd_dataset)
     draw_dtw_matching_graph(y_data, svd_dataset, dtw_warp_path)
@@ -413,6 +434,7 @@ def one_d_sax_visualization():
         n_sax_symbols_avg = 8
         n_sax_symbols_slope = 8
         ONE_D_SAX = one_d_sax.OneDSymbolicAggregateApproximation(segments, n_sax_symbols_avg, n_sax_symbols_slope)
+        y_data = denoise_data_using_fft(y_data)
         reduced_data = ONE_D_SAX.transform(y_data)
     elif request.method == 'POST':
         try:
@@ -422,12 +444,13 @@ def one_d_sax_visualization():
             n_sax_symbols_avg = int(request.form.get(constant_values.STRING_N_SAX_SYMBOLS_AVG))
             n_sax_symbols_slope = int(request.form.get(constant_values.STRING_N_SAX_SYMBOLS_SLOPE))
             ONE_D_SAX = one_d_sax.OneDSymbolicAggregateApproximation(segments, n_sax_symbols_avg, n_sax_symbols_slope)
+            y_data = denoise_data_using_fft(y_data)
             reduced_data = ONE_D_SAX.transform(y_data)
             show_demo_message = False
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, reduced_data)
-    euclidean_match_path = [(x, x) for x in x_data]
+    euclidean_match_path = [(x, x) for x in range(len(y_data))]
     draw_euclidean_matching_graph(y_data, reduced_data, euclidean_match_path)
     dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, reduced_data)
     draw_dtw_matching_graph(y_data, reduced_data, dtw_warp_path)

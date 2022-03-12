@@ -158,7 +158,6 @@ class AdaptivePiecewiseConstantApproximation:
                 exceed = length - len(apca_dataset)
                 for _ in range(exceed):
                     apca_dataset.append(apca_dataset[-1])
-            #TODO add denoise here
             return apca_dataset, reduced_data
         except Exception as e:
             raise e
