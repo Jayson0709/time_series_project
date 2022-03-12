@@ -44,11 +44,11 @@ def validate_input_data(string):
 
 
 def draw_euclidean_matching_graph(series1, series2, path):
-    dtw_vis.plot_warping(series1, series2, path, filename="./templates/euclidean_matching.png")
+    dtw_vis.plot_warping(series1, series2, path, filename="./static/images/euclidean_matching.png")
 
 
 def draw_dtw_matching_graph(series1, series2, path):
-    dtw_vis.plot_warping(series1, series2, path, filename="./templates/dtw_warp.png")
+    dtw_vis.plot_warping(series1, series2, path, filename="./static/images/dtw_warp.png")
 
 
 # Implement similarity search on two sets of time series data, calculate the accuracy based on Euclidean distance
