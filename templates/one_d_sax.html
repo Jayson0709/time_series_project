@@ -34,6 +34,9 @@
         <br>
         The Dynamic Time Warping distance between two sequences is: <b>{{ dtw_distance }}</b>.
     </p>
+    <center><img src="../static/images/euclidean_matching.png" alt="Euclidean Distance image">
+    <img src="../static/images/dtw_warp.png" alt="Dynamic Time Warping graph image"></center>
+
     {% if boolean_message %}
         <br>
         <p style="text-align: center; color: chocolate; font-size: 18px">
@@ -95,7 +98,7 @@
 
     <button id="display-demo-button" onclick="window.location.href='/visualization/SAX';"> Display the previous demo</button>
     <br>
-    <table style="width:70%">
+    <table style="width:90%">
         <tr>
             <th>The original data</th>
             <th>{{ original_data }}</th>
