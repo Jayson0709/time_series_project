@@ -14,3 +14,4 @@ fastdtw~=0.3.4
 memory_profiler~=0.60.0
 scikit-learn~=0.24.2
 matplotlib~=3.3.4
+dtaidistance~=2.3.6

@@ -13,6 +13,7 @@ from static.Python import constant_values
 import re
 from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
+from dtaidistance import dtw_visualisation as dtw_vis
 
 # Get the demo data from the datasets
 file_path = r"./datasets/Beef_TRAIN"
@@ -40,6 +41,14 @@ def validate_input_data(string):
     if not re.match(r'^[0-9,]*$', string):
         raise ValueError('Input data can only contain space, comma, and numbers.')
     return string.split(constant_values.COMMA)
+
+
+def draw_euclidean_matching_graph(series1, series2, path):
+    dtw_vis.plot_warping(series1, series2, path, filename="./templates/euclidean_matching.png")
+
+
+def draw_dtw_matching_graph(series1, series2, path):
+    dtw_vis.plot_warping(series1, series2, path, filename="./templates/dtw_warp.png")
 
 
 # Implement similarity search on two sets of time series data, calculate the accuracy based on Euclidean distance
@@ -100,7 +109,10 @@ def apca_visualization():
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, apca_dataset)
-    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, apca_dataset)
+    euclidean_match_path = [(x, x) for x in x_data]
+    draw_euclidean_matching_graph(y_data, apca_dataset, euclidean_match_path)
+    dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, apca_dataset)
+    draw_dtw_matching_graph(y_data, apca_dataset, dtw_warp_path)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -122,7 +134,7 @@ def apca_visualization():
     )
     return render_template("apca.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
                            segments=segments, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
-                           warp_path=warp_path, boolean_message=show_demo_message)
+                           warp_path=dtw_warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/DFT", methods=['GET', 'POST'])
@@ -149,7 +161,10 @@ def dft_visualization():
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, reduced_data)
-    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, reduced_data)
+    euclidean_match_path = [(x, x) for x in x_data]
+    draw_euclidean_matching_graph(y_data, reduced_data, euclidean_match_path)
+    dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, reduced_data)
+    draw_dtw_matching_graph(y_data, reduced_data, dtw_warp_path)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -170,7 +185,7 @@ def dft_visualization():
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.DFT_TITLE))
     )
     return render_template("dft.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
-                           euclidean_distance=euclidean_distance, dtw_distance=dtw_distance, warp_path=warp_path,
+                           euclidean_distance=euclidean_distance, dtw_distance=dtw_distance, warp_path=dtw_warp_path,
                            n_coefficients=n_coefficients, boolean_message=show_demo_message)
 
 
@@ -196,7 +211,10 @@ def dwt_visualization():
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, dwt_dataset)
-    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, dwt_dataset)
+    euclidean_match_path = [(x, x) for x in x_data]
+    draw_euclidean_matching_graph(y_data, dwt_dataset, euclidean_match_path)
+    dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, dwt_dataset)
+    draw_dtw_matching_graph(y_data, dwt_dataset, dtw_warp_path)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -218,7 +236,7 @@ def dwt_visualization():
     )
     return render_template("dwt.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
                            coefficients=coefficients, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
-                           warp_path=warp_path, boolean_message=show_demo_message)
+                           warp_path=dtw_warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/PAA", methods=['GET', 'POST'])
@@ -246,7 +264,10 @@ def paa_visualization():
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, paa_dataset)
-    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, paa_dataset)
+    euclidean_match_path = [(x, x) for x in x_data]
+    draw_euclidean_matching_graph(y_data, paa_dataset, euclidean_match_path)
+    dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, paa_dataset)
+    draw_dtw_matching_graph(y_data, paa_dataset, dtw_warp_path)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -268,7 +289,7 @@ def paa_visualization():
     )
     return render_template("paa.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
                            segments=segments, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
-                           warp_path=warp_path, boolean_message=show_demo_message)
+                           warp_path=dtw_warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/PLA", methods=['GET', 'POST'])
@@ -296,7 +317,10 @@ def pla_visualization():
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, pla_dataset)
-    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, pla_dataset)
+    euclidean_match_path = [(x, x) for x in x_data]
+    draw_euclidean_matching_graph(y_data, pla_dataset, euclidean_match_path)
+    dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, pla_dataset)
+    draw_dtw_matching_graph(y_data, pla_dataset, dtw_warp_path)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -318,7 +342,7 @@ def pla_visualization():
     )
     return render_template("pla.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
                            segments=segments, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
-                           warp_path=warp_path, boolean_message=show_demo_message)
+                           warp_path=dtw_warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/SVD", methods=['GET', 'POST'])
@@ -345,7 +369,10 @@ def svd_visualization():
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, svd_dataset)
-    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, svd_dataset)
+    euclidean_match_path = [(x, x) for x in x_data]
+    draw_euclidean_matching_graph(y_data, svd_dataset, euclidean_match_path)
+    dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, svd_dataset)
+    draw_dtw_matching_graph(y_data, svd_dataset, dtw_warp_path)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -367,7 +394,7 @@ def svd_visualization():
     )
     return render_template("svd.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
                            n_components=n_components, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
-                           warp_path=warp_path, boolean_message=show_demo_message)
+                           warp_path=dtw_warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/ONE_D_SAX", methods=['GET', 'POST'])
@@ -400,7 +427,10 @@ def one_d_sax_visualization():
         except Exception as e:
             flash(str(e), category=constant_values.STRING_CATEGORY_ERROR)
     euclidean_distance = graph_accuracy_based_on_ed(y_data, reduced_data)
-    dtw_distance, warp_path = graph_accuracy_based_on_dtw(y_data, reduced_data)
+    euclidean_match_path = [(x, x) for x in x_data]
+    draw_euclidean_matching_graph(y_data, reduced_data, euclidean_match_path)
+    dtw_distance, dtw_warp_path = graph_accuracy_based_on_dtw(y_data, reduced_data)
+    draw_dtw_matching_graph(y_data, reduced_data, dtw_warp_path)
     line = (
         Line()
             .add_xaxis(xaxis_data=x_data)
@@ -422,7 +452,8 @@ def one_d_sax_visualization():
     )
     return render_template("one_d_sax.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
                            segments=segments, n_sax_symbols_avg=n_sax_symbols_avg, n_sax_symbols_slope=n_sax_symbols_slope,
-                           euclidean_distance=euclidean_distance, dtw_distance=dtw_distance, warp_path=warp_path, boolean_message=show_demo_message)
+                           euclidean_distance=euclidean_distance, dtw_distance=dtw_distance, warp_path=dtw_warp_path,
+                           boolean_message=show_demo_message)
 
 
 if __name__ == "__main__":
