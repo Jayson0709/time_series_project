@@ -17,23 +17,26 @@
             Features:
         </p>
         <ul>
-            <li> TBA
+            <li> Efficient, easy to understand.
             </li>
         </ul>
         <p>
             Disadvantages:
         </p>
         <ul>
-            <li> TBA
+            <li> Can miss some important patterns in large datasets.
+            </li>
+            <li>
+                Does not have good tightness of lower bound.
             </li>
         </ul>
         <p>
             Analysis:
         </p>
         <ul>
-            <li> Time complexity:
+            <li> Time complexity: <b>O(n)</b>
             </li>
-            <li> Memory requirement:
+            <li> Memory requirement: <b>O(n)</b>
             </li>
         </ul>
 
@@ -45,23 +48,31 @@
             Features:
         </p>
         <ul>
-            <li> TBA
+            <li>
+                Uses precomputed distances (efficient).
+            </li>
+            <li>
+                The distance measure defined on the reduced space lower bounds the distance measure defined on the original space.
             </li>
         </ul>
         <p>
             Disadvantages:
         </p>
         <ul>
-            <li> TBA
+            <li>
+                Hard to capture segment trend information.
+            </li>
+            <li>
+                Need to choose average symbol and slope.
             </li>
         </ul>
         <p>
             Analysis:
         </p>
         <ul>
-            <li> Time complexity:
+            <li> Time complexity: <b>O(nlog2(n))</b>
             </li>
-            <li> Memory requirement:
+            <li> Memory requirement: <b>O(n^2)</b>
             </li>
         </ul>
 
@@ -73,23 +84,31 @@
             Features:
         </p>
         <ul>
-            <li> TBA
+            <li>
+                A sine-cosine basis space is a very familiar concept. It provides a natural framework for optimizations of transform coder design with inputs where the perceptual effects of signal distortion are best understood in the frequency domain.
+            </li>
+            <li>
+                Can provide accurate results.
             </li>
         </ul>
         <p>
             Disadvantages:
         </p>
         <ul>
-            <li> TBA
+            <li>
+                 Requires each harmonic to be calculated separately, which requires much more processing power.
+            </li>
+            <li>
+                Does not include location information, only frequency information, and thus has difficulty in representing transients.
             </li>
         </ul>
         <p>
             Analysis:
         </p>
         <ul>
-            <li> Time complexity:
+            <li> Time complexity: <b>O(nlog(n))</b>
             </li>
-            <li> Memory requirement:
+            <li> Memory requirement: <b>O(n^2)</b>
             </li>
         </ul>
 
@@ -101,23 +120,31 @@
             Features:
         </p>
         <ul>
-            <li> TBA
+            <li>
+                Fast and Flexible.
+            </li>
+            <li>
+                Can be used to denoise.
             </li>
         </ul>
         <p>
             Disadvantages:
         </p>
         <ul>
-            <li> TBA
+            <li>
+                Takes time to choose a proper wavelet.
+            </li>
+            <li>
+                Computational intensive for fine analysis.
             </li>
         </ul>
         <p>
             Analysis:
         </p>
         <ul>
-            <li> Time complexity:
+            <li> Time complexity: <b>O(n)</b>
             </li>
-            <li> Memory requirement:
+            <li> Memory requirement: <b>O(n)</b>
             </li>
         </ul>
 
@@ -134,23 +161,28 @@
                 SVD is commonly used indirectly to explore the main eigenvalues of a transition matrix,
                 estimated from observed trajectories of a certain length.
             </li>
+            <li>
+                Simplifies data, removes noise, may improve algorithm results.
+            </li>
         </ul>
         <p>
             Disadvantages:
         </p>
         <ul>
-            <li> SVD of multi-variate time-series is of course very common.
-                The point I think the author is making is that SVD cannot meaningfully be directly
+            <li> SVD of multi-variate time-series is of course very common. SVD cannot meaningfully be directly
                 applied to a uni-variate time-series.
+            </li>
+            <li>
+                Transformed data may be difficult to understand.
             </li>
         </ul>
         <p>
             Analysis:
         </p>
         <ul>
-            <li> Time complexity:
+            <li> Time complexity: <b>O(n^3)</b>
             </li>
-            <li> Memory requirement:
+            <li> Memory requirement: <b>O(n^2)</b>
             </li>
         </ul>
 
@@ -162,23 +194,29 @@
             Features:
         </p>
         <ul>
-            <li> TBA
+            <li> A raw time series is divided into several segments with unequal lengths based on important points.
+            </li>
+            <li>
+                The observations in each segment are substituted by a mean value.
+            </li>
+            <li>
+                The adaptive piecewise constant approximation is more flexible than the piecewise aggregate approximation.
             </li>
         </ul>
         <p>
             Disadvantages:
         </p>
         <ul>
-            <li> TBA
+            <li> Not as fast as PAA or PLA.
             </li>
         </ul>
         <p>
             Analysis:
         </p>
         <ul>
-            <li> Time complexity:
+            <li> Time complexity: <b>O(nlog2(n))</b>
             </li>
-            <li> Memory requirement:
+            <li> Memory requirement: <b>O(n)</b>
             </li>
         </ul>
 
@@ -190,23 +228,33 @@
             Features:
         </p>
         <ul>
-            <li> TBA
+            <li> Better tightness of lower bound than PAA.
+            </li>
+            <li>
+                PLA possesses small index dimension and low computational overhead.
+            </li>
+            <li>
+                Moreover, this type of representation is more friendly to human visual experience.
             </li>
         </ul>
         <p>
             Disadvantages:
         </p>
         <ul>
-            <li> TBA
+            <li>
+                Takes time to choose the dividing points and the number of segments.
+            </li>
+            <li>
+                Not suitable for discrete data or sparse data.
             </li>
         </ul>
         <p>
             Analysis:
         </p>
         <ul>
-            <li> Time complexity:
+            <li> Time complexity: <b>O(n)</b>
             </li>
-            <li> Memory requirement:
+            <li> Memory requirement: <b>O(n)</b>
             </li>
         </ul>
     </div>
