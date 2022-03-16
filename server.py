@@ -47,7 +47,7 @@ def validate_input_data(string):
     if string[-1] == constant_values.COMMA:
         raise ValueError('Input data cannot end with comma.')
     string = string.replace(constant_values.SPACE, constant_values.EMPTY_STRING)
-    if not re.match(r'^[0-9,]*$', string):
+    if not re.match(r'^[0-9,\-]*$', string):
         raise ValueError('Input data can only contain space, comma, and numbers.')
     return string.split(constant_values.COMMA)
 
