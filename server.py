@@ -104,7 +104,7 @@ def apca_visualization():
     if request.method == 'GET':
         segments = 30
         APCA = apca.AdaptivePiecewiseConstantApproximation(segments)
-        y_data = data[1]
+        y_data = data[1][1:]
         x_data = [i for i in range(len(y_data))]
         y_data = denoise_data_using_fft(y_data)
         apca_dataset, reduced_data = APCA.transform(y_data)
@@ -158,7 +158,7 @@ def dft_visualization():
     if request.method == 'GET':
         n_coefficients = 30
         DFT = dft.DiscreteFourierTransformation(n_coefficients)
-        y_data = data[2]
+        y_data = data[2][1:]
         x_data = [i for i in range(len(y_data))]
         y_data = denoise_data_using_fft(y_data)
         reduced_data = DFT.transform(y_data)
@@ -212,7 +212,7 @@ def dwt_visualization():
     coefficients = []
     show_demo_message = True
     if request.method == 'GET':
-        y_data = data[3]
+        y_data = data[3][1:]
         x_data = [i for i in range(len(y_data))]
         y_data = denoise_data_using_fft(y_data)
         dwt_dataset, reduced_data, coefficients = DWT.haar_transformation(y_data)
@@ -263,7 +263,7 @@ def paa_visualization():
     segments = None
     show_demo_message = True
     if request.method == 'GET':
-        y_data = data[4]
+        y_data = data[4][1:]
         x_data = [i for i in range(len(y_data))]
         segments = 20
         PAA = paa.PiecewiseAggregateApproximation(segments)
@@ -374,7 +374,7 @@ def svd_visualization():
     n_components = None
     show_demo_message = True
     if request.method == 'GET':
-        y_data = data[5]
+        y_data = data[5][1:]
         x_data = [i for i in range(len(y_data))]
         n_components = 30
         y_data = denoise_data_using_fft(y_data)
@@ -428,7 +428,7 @@ def one_d_sax_visualization():
     n_sax_symbols_slope = None
     show_demo_message = True
     if request.method == 'GET':
-        y_data = data[6]
+        y_data = data[6][1:]
         x_data = [i for i in range(len(y_data))]
         segments = 10
         n_sax_symbols_avg = 8
