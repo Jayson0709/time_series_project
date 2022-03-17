@@ -15,7 +15,10 @@
 - Accuracy -> Euclidean Distance, Dynamic Time Warping Distance
 
 ### Framework
-Flask
+Flask, Bootstrap
+
+### Graph Library & Template Engine
+pyecharts & Jinja
 
 ### Running the Project
 Install the dependencies and modules:
