@@ -3,6 +3,7 @@ import numpy as np
 
 # test datasets' name
 dataset_name_list = ["50Words", "Computers", "Earthquakes", "ECG5000", "Symbols"]
+patterns = ['/', '\\', '*', '-', 'O', '|', '.']
 
 width = 0.12
 x_axis = np.arange(len(dataset_name_list))
@@ -16,29 +17,21 @@ paa_time = [0.009, 0.005, 0.011, 0.004, 0.005]
 pla_time = [0.012, 0.015, 0.017, 0.013, 0.039]
 svd_time = [0.015, 0.011, 0.009, 0.011, 0.015]
 
-plt_1 = plt.figure(figsize=(8, 8))
-
-plt.bar(x_axis, apca_time, width, label='APCA')
-
-plt.bar(x_axis + width, dft_time, width, label='DFT')
-
-plt.bar(x_axis + width * 2, dwt_time, width, label='DWT')
-
-plt.bar(x_axis + width * 3, one_d_sax_time, width, label='OneD_SAX')
-
-plt.bar(x_axis + width * 4, paa_time, width, label='PAA')
-
-plt.bar(x_axis + width * 5, pla_time, width, label='PLA')
-
-plt.bar(x_axis + width * 6, svd_time, width, label='SVD')
+plt.subplot(1, 2, 1)
+plt.bar(x_axis, apca_time, width, label='APCA', hatch=patterns[0])
+plt.bar(x_axis + width, dft_time, width, label='DFT', hatch=patterns[1])
+plt.bar(x_axis + width * 2, dwt_time, width, label='DWT', hatch=patterns[2])
+plt.bar(x_axis + width * 3, one_d_sax_time, width, label='OneD_SAX', hatch=patterns[3])
+plt.bar(x_axis + width * 4, paa_time, width, label='PAA', hatch=patterns[4])
+plt.bar(x_axis + width * 5, pla_time, width, label='PLA', hatch=patterns[5])
+plt.bar(x_axis + width * 6, svd_time, width, label='SVD', hatch=patterns[6])
 
 plt.yscale('log')
 plt.xticks(x_axis + width * 3, dataset_name_list)
-plt.title('Execution Time')
+plt.title("Average Execution Time of the Implemented Algorithms on the Datasets")
 plt.xlabel('Datasets')
-plt.ylabel('Time')
+plt.ylabel('Execution Time (sec)')
 plt.legend()
-plt.show()
 
 
 # Space complexity data
@@ -50,26 +43,18 @@ paa_space = [79.7, 80.7, 82.6, 82.9, 82.9]
 pla_space = [79.7, 80.8, 82.9, 82.9, 82.9]
 svd_space = [106.4, 108.1, 110.4, 110.5, 110.6]
 
-plt_2 = plt.figure(figsize=(8, 8))
-
-plt.bar(x_axis, apca_space, width, label='APCA')
-
-plt.bar(x_axis + width, dft_space, width, label='DFT')
-
-plt.bar(x_axis + width * 2, dwt_space, width, label='DWT')
-
-plt.bar(x_axis + width * 3, one_d_sax_space, width, label='OneD_SAX')
-
-plt.bar(x_axis + width * 4, paa_space, width, label='PAA')
-
-plt.bar(x_axis + width * 5, pla_space, width, label='PLA')
-
-plt.bar(x_axis + width * 6, svd_space, width, label='SVD')
-
+plt.subplot(1, 2, 2)
+plt.bar(x_axis, apca_space, width, label='APCA', hatch=patterns[0])
+plt.bar(x_axis + width, dft_space, width, label='DFT', hatch=patterns[1])
+plt.bar(x_axis + width * 2, dwt_space, width, label='DWT', hatch=patterns[2])
+plt.bar(x_axis + width * 3, one_d_sax_space, width, label='OneD_SAX', hatch=patterns[3])
+plt.bar(x_axis + width * 4, paa_space, width, label='PAA', hatch=patterns[4])
+plt.bar(x_axis + width * 5, pla_space, width, label='PLA', hatch=patterns[5])
+plt.bar(x_axis + width * 6, svd_space, width, label='SVD', hatch=patterns[6])
 plt.xticks(x_axis + width * 3, dataset_name_list)
-plt.title('Used Memory')
+plt.title('Average Memory Usage of the Implemented Algorithms on the Datasets')
 plt.xlabel('Datasets')
-plt.ylabel('Memory')
+plt.ylabel('Used Memory (MiB)')
 plt.legend()
 plt.show()
 
@@ -83,29 +68,22 @@ paa_ed = [51.235, 150.437, 283.86, 74.981, 40.783]
 pla_ed = [16.757, 111.961, 250.157, 13.159, 3.294]
 svd_ed = [5495.37, 19345.57, 11596.508, 1167.33, 8296.6523]
 
-plt_3 = plt.figure(figsize=(8, 8))
 
-plt.bar(x_axis, apca_ed, width, label='APCA')
-
-plt.bar(x_axis + width, dft_ed, width, label='DFT')
-
-plt.bar(x_axis + width * 2, dwt_ed, width, label='DWT')
-
-plt.bar(x_axis + width * 3, one_d_sax_ed, width, label='OneD_SAX')
-
-plt.bar(x_axis + width * 4, paa_ed, width, label='PAA')
-
-plt.bar(x_axis + width * 5, pla_ed, width, label='PLA')
-
-plt.bar(x_axis + width * 6, svd_ed, width, label='SVD')
+plt.subplot(1, 2, 1)
+plt.bar(x_axis, apca_ed, width, label='APCA', hatch=patterns[0])
+plt.bar(x_axis + width, dft_ed, width, label='DFT', hatch=patterns[1])
+plt.bar(x_axis + width * 2, dwt_ed, width, label='DWT', hatch=patterns[2])
+plt.bar(x_axis + width * 3, one_d_sax_ed, width, label='OneD_SAX', hatch=patterns[3])
+plt.bar(x_axis + width * 4, paa_ed, width, label='PAA', hatch=patterns[4])
+plt.bar(x_axis + width * 5, pla_ed, width, label='PLA', hatch=patterns[5])
+plt.bar(x_axis + width * 6, svd_ed, width, label='SVD', hatch=patterns[6])
 
 plt.yscale('log')
 plt.xticks(x_axis + width * 3, dataset_name_list)
-plt.title('Euclidean Distances of Different Algorithms')
+plt.title('Average Euclidean Distances of the Implemented Algorithms on the Datasets')
 plt.xlabel('Datasets')
-plt.ylabel('Distance')
+plt.ylabel('Euclidean Distance')
 plt.legend()
-plt.show()
 
 
 # Dynamic time warping distance data
@@ -117,26 +95,19 @@ paa_dtw_dis = [46.146, 140.463, 283.564, 34.618, 29.045]
 pla_dtw_dis = [13.102, 15.749, 99.349, 249.876, 13.102]
 svd_dtw_dis = [5495.37, 19345.57, 11596.508, 1167.33, 8296.653]
 
-plt_4 = plt.figure(figsize=(8, 8))
-
-plt.bar(x_axis, apca_dtw_dis, width, label='APCA')
-
-plt.bar(x_axis + width, dft_dtw_dis, width, label='DFT')
-
-plt.bar(x_axis + width * 2, dwt_dtw_dis, width, label='DWT')
-
-plt.bar(x_axis + width * 3, one_d_sax_dtw_dis, width, label='OneD_SAX')
-
-plt.bar(x_axis + width * 4, paa_dtw_dis, width, label='PAA')
-
-plt.bar(x_axis + width * 5, pla_dtw_dis, width, label='PLA')
-
-plt.bar(x_axis + width * 6, svd_dtw_dis, width, label='SVD')
+plt.subplot(1, 2, 2)
+plt.bar(x_axis, apca_dtw_dis, width, label='APCA', hatch=patterns[0])
+plt.bar(x_axis + width, dft_dtw_dis, width, label='DFT', hatch=patterns[1])
+plt.bar(x_axis + width * 2, dwt_dtw_dis, width, label='DWT', hatch=patterns[2])
+plt.bar(x_axis + width * 3, one_d_sax_dtw_dis, width, label='OneD_SAX', hatch=patterns[3])
+plt.bar(x_axis + width * 4, paa_dtw_dis, width, label='PAA', hatch=patterns[4])
+plt.bar(x_axis + width * 5, pla_dtw_dis, width, label='PLA', hatch=patterns[5])
+plt.bar(x_axis + width * 6, svd_dtw_dis, width, label='SVD', hatch=patterns[6])
 
 plt.yscale('log')
 plt.xticks(x_axis + width * 3, dataset_name_list)
-plt.title('Dynamic Time Warping Distances of Different Algorithms')
+plt.title('Average DTW Distances of the Implemented Algorithms on the Datasets')
 plt.xlabel('Datasets')
-plt.ylabel('Distance')
+plt.ylabel('Dynamic Time Warping Distances')
 plt.legend()
 plt.show()
