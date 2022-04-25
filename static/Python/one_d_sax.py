@@ -1,4 +1,4 @@
-# Symbolic Aggregate Approximation
+# One Dimensional Symbolic Aggregate Approximation
 import numpy as np
 from tslearn.piecewise import OneD_SymbolicAggregateApproximation
 
