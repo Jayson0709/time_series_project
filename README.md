@@ -7,8 +7,8 @@
 - UCR dataset -> time series dataset
 
 ### Extensions - Finished
-- de-noising - **Faster Fourier transform**
-- Accuracy measurement - **Dynamic Time Warping**
+- de-noising - **Faster Fourier Transform**
+- Accuracy measurement - **Dynamic Time Warping Distance**
 
 ### Criteria
 - Performance -> computation time (CPU time and memory requirement)

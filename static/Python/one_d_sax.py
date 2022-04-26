@@ -16,6 +16,9 @@ class OneDSymbolicAggregateApproximation:
             one_d_sax = OneD_SymbolicAggregateApproximation(n_segments=self.segments, alphabet_size_avg=self.size_avg, alphabet_size_slope=self.size_avg)
             transformed_data = one_d_sax.fit_transform(time_series_data)
             one_d_sax_dataset_inv = one_d_sax.inverse_transform(transformed_data)
-            return one_d_sax_dataset_inv[0].ravel()
+            result = []
+            for num in one_d_sax_dataset_inv[0].ravel():
+                result.append(num)
+            return result
         except Exception as e:
             raise e

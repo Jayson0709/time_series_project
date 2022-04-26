@@ -38,6 +38,9 @@ class DiscreteFourierTransformation:
                     X_dft[:, real_idx] + 1j * X_dft[:, imag_idx]
                 ]
             X_irfft = np.fft.irfft(X_dft_new, time_series_data.shape[1])
-            return X_irfft[0]
+            result = []
+            for num in X_irfft[0]:
+                result.append(num)
+            return result
         except Exception as e:
             raise e
