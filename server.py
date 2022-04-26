@@ -27,7 +27,7 @@ app = Flask(__name__)
 
 def denoise_data_using_fft(series):
     f_hat = np.fft.rfft(series)
-    threshold = 1e8
+    threshold = 1e8  # the threshold to filter the noise
     frequencies = np.fft.rfftfreq(len(series), d=20e-3/len(series))
     f_hat[frequencies > threshold] = 0
     return np.fft.irfft(f_hat)
@@ -60,15 +60,20 @@ def draw_dtw_matching_graph(series1, series2, path):
     dtw_vis.plot_warping(series1, series2, path, filename="./static/images/dtw_warp.png")
 
 
-# Implement similarity search on two sets of time series data, calculate the accuracy based on Euclidean distance
+# Calculate the accuracy based on the Euclidean distance
 def graph_accuracy_based_on_ed(raw_dataset, transformed_dataset):
     euclidean_distance = 0.0
+    temp = transformed_dataset
+    if len(raw_dataset) != len(transformed_dataset):
+        gap = len(raw_dataset) - len(transformed_dataset)
+        for _ in range(gap):
+            temp.append(transformed_dataset[-1])
     for i in range(len(raw_dataset)):
-        euclidean_distance += abs(raw_dataset[i] - transformed_dataset[i])
+        euclidean_distance += abs(raw_dataset[i] - temp[i])
     return euclidean_distance
 
 
-# Implement similarity search on two sets of time series data, calculate the accuracy based on Dynamic Time Warping
+# Calculate the accuracy based on the Dynamic Time Warping distance
 def graph_accuracy_based_on_dtw(raw_dataset, transformed_dataset):
     return fastdtw(raw_dataset, transformed_dataset, dist=euclidean)
 
@@ -312,9 +317,9 @@ def paa_visualization():
                        )
             .set_global_opts(title_opts=opts.TitleOpts(title=constant_values.PAA_TITLE))
     )
-    return render_template("paa.html", line_options=line.dump_options(), original_data=y_data, reduced_data=reduced_data,
-                           segments=segments, euclidean_distance=euclidean_distance, dtw_distance=dtw_distance,
-                           warp_path=dtw_warp_path, boolean_message=show_demo_message)
+    return render_template("paa.html", line_options=line.dump_options(), original_data=y_data, denoised_data=denoised_data,
+                           reduced_data=reduced_data, segments=segments, euclidean_distance=euclidean_distance,
+                           dtw_distance=dtw_distance, warp_path=dtw_warp_path, boolean_message=show_demo_message)
 
 
 @app.route("/visualization/PLA", methods=['GET', 'POST'])
