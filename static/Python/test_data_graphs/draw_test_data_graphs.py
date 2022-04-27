@@ -163,8 +163,111 @@ plt.bar(x_axis + width * 6, list7_dtw, width, label='n_coefficients=140', hatch=
 plt.xticks(x_axis + width * 3, dataset_name_list)
 plt.title('Dynamic Time Warping Distances of DFT with Different n_coefficients')
 plt.xlabel('Datasets')
-plt.ylabel('Dynamic Time Warping Distances')
+plt.ylabel('Dynamic Time Warping Distance')
 plt.legend()
 plt.show()
 
 ########################################################################################
+# Euclidean and dynamic time warping distances for APCA with different segment size.
+# Euclidean distance data
+list1_ed = [114.30216564135038, 128.87753786356691, 301.7009037235459, 43.92926100536797, 74.63850814164154]
+list2_ed = [50.334325606547594, 107.83068626356699, 280.41750887542264, 43.92926100536797, 74.63850814164154]
+list3_ed = [36.69634247619049, 107.61148631006003, 275.5755933870319, 43.92926100536797, 74.63850814164154]
+list4_ed = [29.942066492857155, 107.3993403581866, 264.5300267752992, 43.92926100536797, 74.63850814164154]
+list5_ed = [25.941021564285737, 107.21283465795332, 264.12059263719243, 43.92926100536797, 74.63850814164154]
+list6_ed = [23.82810214166666, 93.59959110644256, 257.67587393225404, 39.18456588822512, 67.4439069362147]
+list7_ed = [22.463992100000024, 106.76169840247198, 262.21922737835814, 43.92926100536797, 74.63850814164154]
+
+plt.subplot(1, 2, 1)
+plt.bar(x_axis, list1_ed, width, label='segment_size=10', hatch=patterns[0])
+plt.bar(x_axis + width, list2_ed, width, label='segment_size=20', hatch=patterns[1])
+plt.bar(x_axis + width * 2, list3_ed, width, label='segment_size=30', hatch=patterns[2])
+plt.bar(x_axis + width * 3, list4_ed, width, label='segment_size=40', hatch=patterns[3])
+plt.bar(x_axis + width * 4, list5_ed, width, label='segment_size=50', hatch=patterns[4])
+plt.bar(x_axis + width * 5, list6_ed, width, label='segment_size=60', hatch=patterns[5])
+plt.bar(x_axis + width * 6, list7_ed, width, label='segment_size=70', hatch=patterns[6])
+
+plt.xticks(x_axis + width * 3, dataset_name_list)
+plt.title('Euclidean Distances of APCA with Different Segment Size')
+plt.xlabel('Datasets')
+plt.ylabel('Euclidean Distance')
+plt.legend()
+
+
+# Dynamic time warping distance data
+list1_dtw = [73.09677197993668, 114.70506880642404, 308.28328420169146, 39.18456588822512, 67.4439069362147]
+list2_dtw = [46.284366124404684, 92.90768762864634, 273.6250586585054, 39.18456588822512, 67.4439069362147]
+list3_dtw = [35.32409874404763, 93.43220825291716, 270.13641167275415, 39.18456588822512, 67.4439069362147]
+list4_dtw = [29.20605112182542, 93.67482158186576, 257.34219118669085, 39.18456588822512, 67.4439069362147]
+list5_dtw = [25.464557415476197, 93.4209467781154, 257.1374741176378, 39.18456588822512, 67.4439069362147]
+list6_dtw = [23.82810214166666, 93.59959110644256, 257.67587393225404, 39.18456588822512, 67.4439069362147]
+list7_dtw = [22.26243451666669, 92.78575202471839, 255.99270270604416, 39.18456588822512, 67.4439069362147]
+
+plt.subplot(1, 2, 2)
+plt.bar(x_axis, list1_dtw, width, label='segment_size=10', hatch=patterns[0])
+plt.bar(x_axis + width, list2_dtw, width, label='segment_size=20', hatch=patterns[1])
+plt.bar(x_axis + width * 2, list3_dtw, width, label='segment_size=30', hatch=patterns[2])
+plt.bar(x_axis + width * 3, list4_dtw, width, label='segment_size=40', hatch=patterns[3])
+plt.bar(x_axis + width * 4, list5_dtw, width, label='segment_size=50', hatch=patterns[4])
+plt.bar(x_axis + width * 5, list6_dtw, width, label='segment_size=60', hatch=patterns[5])
+plt.bar(x_axis + width * 6, list7_dtw, width, label='segment_size=70', hatch=patterns[6])
+
+plt.xticks(x_axis + width * 3, dataset_name_list)
+plt.title('Dynamic Time Warping Distances of APCA with Different Segment Size')
+plt.xlabel('Datasets')
+plt.ylabel('Dynamic Time Warping Distance')
+plt.legend()
+plt.show()
+
+########################################################################################
+# Euclidean and dynamic time warping distances for PAA with different segment size.
+# Euclidean distance data
+list1_ed = [89.03159109999999, 211.75621020000014, 304.99461999999954, 43.61715720000001, 72.9420363]
+list2_ed = [94.45988690000003, 175.50753020000016, 295.7156199999997, 43.61715720000001, 72.9420363]
+list3_ed = [51.23511890000004, 150.4368502000002, 283.8576199999998, 43.61715720000001, 72.9420363]
+list4_ed = [185.07555889999995, 125.10680980000006, 318.4676200000016, 43.61715720000001, 72.9420363]
+list5_ed = [137.8170709, 195.4940497999999, 298.3686200000002, 43.61715720000001, 72.9420363]
+list6_ed = [183.72449890000013, 113.32566999999996, 314.3943000000004, 43.61715720000001, 72.9420363]
+list7_ed = [264.21475910000015, 192.07414980000016, 292.4786200000006, 43.61715720000001, 72.9420363]
+
+plt.subplot(1, 2, 1)
+plt.bar(x_axis, list1_ed, width, label='segment_size=10', hatch=patterns[0])
+plt.bar(x_axis + width, list2_ed, width, label='segment_size=20', hatch=patterns[1])
+plt.bar(x_axis + width * 2, list3_ed, width, label='segment_size=30', hatch=patterns[2])
+plt.bar(x_axis + width * 3, list4_ed, width, label='segment_size=40', hatch=patterns[3])
+plt.bar(x_axis + width * 4, list5_ed, width, label='segment_size=50', hatch=patterns[4])
+plt.bar(x_axis + width * 5, list6_ed, width, label='segment_size=60', hatch=patterns[5])
+plt.bar(x_axis + width * 6, list7_ed, width, label='segment_size=70', hatch=patterns[6])
+
+plt.xticks(x_axis + width * 3, dataset_name_list)
+plt.xlabel('Datasets')
+plt.title('Euclidean Distances of PAA with Different Segment Size')
+plt.ylabel('Euclidean Distance')
+plt.legend()
+
+
+# Dynamic time warping distance data
+list1_dtw = [69.12685309999996, 172.9248302000001, 304.8537199999994, 33.555297200000005, 66.1219023]
+list2_dtw = [56.362988800000004, 143.80399019999993, 282.41400999999985, 33.555297200000005, 66.1219023]
+list3_dtw = [46.14556690000005, 140.4633306000002, 283.5645900000001, 33.555297200000005, 66.1219023]
+list4_dtw = [40.26489609999993, 118.14280950000007, 281.83908000000133, 33.555297200000005, 66.1219023]
+list5_dtw = [36.43502210000003, 111.33529980000003, 265.1227400000008, 33.555297200000005, 66.1219023]
+list6_dtw = [32.702722899999905, 101.95855979999993, 249.95213000000146, 33.555297200000005, 66.1219023]
+list7_dtw = [28.953942899999948, 109.84621039999986, 225.74204000000083, 33.555297200000005, 66.1219023]
+
+
+plt.subplot(1, 2, 2)
+plt.bar(x_axis, list1_dtw, width, label='segment_size=10', hatch=patterns[0])
+plt.bar(x_axis + width, list2_dtw, width, label='segment_size=20', hatch=patterns[1])
+plt.bar(x_axis + width * 2, list3_dtw, width, label='segment_size=30', hatch=patterns[2])
+plt.bar(x_axis + width * 3, list4_dtw, width, label='segment_size=40', hatch=patterns[3])
+plt.bar(x_axis + width * 4, list5_dtw, width, label='segment_size=50', hatch=patterns[4])
+plt.bar(x_axis + width * 5, list6_dtw, width, label='segment_size=60', hatch=patterns[5])
+plt.bar(x_axis + width * 6, list7_dtw, width, label='segment_size=70', hatch=patterns[6])
+
+plt.xticks(x_axis + width * 3, dataset_name_list)
+plt.title('Dynamic Time Warping Distances of PAA with Different Segment Size')
+plt.xlabel('Datasets')
+plt.ylabel('Dynamic Time Warping Distance')
+plt.legend()
+plt.show()
