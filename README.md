@@ -20,7 +20,7 @@ Flask, Bootstrap
 ### Graph Library & Template Engine
 pyecharts & Jinja
 
-### Running the Project
+### To run the project
 Install the dependencies and modules:
 ```
 # Windows
@@ -37,6 +37,18 @@ python server.py
 python3 server.py
 ```
 The app should be on and running at: http://127.0.0.1:5000/
+
+### To stop the project
+It is really easy to stop the project on the terminal.
+Simply use the following command on the terminal that you run
+the project.
+```
+# Windows & Linux
+Ctrl + C
+
+# Mac 
+control + C
+```
 
 ### Code Structure
 ```
