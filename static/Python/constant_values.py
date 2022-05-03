@@ -1,4 +1,6 @@
 COMMA = ","
+DOT = "."
+NEW_LINE = "\r\n"
 SPACE = " "
 EMPTY_STRING = ""
 STRING_SEGMENTS = "segments"

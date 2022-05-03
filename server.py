@@ -47,9 +47,17 @@ def validate_input_data(string):
     if string[-1] == constant_values.COMMA:
         raise ValueError('Input data cannot end with comma.')
     string = string.replace(constant_values.SPACE, constant_values.EMPTY_STRING)
-    if not re.match(r'^[\d,\-]*$', string):
-        raise ValueError('Input data can only contain space, comma, and numbers.')
-    return string.split(constant_values.COMMA)
+    tokens = string.replace(constant_values.DOT, constant_values.EMPTY_STRING)
+    tokens = tokens.split(constant_values.COMMA)
+    for token in tokens:
+        token = token.replace(constant_values.NEW_LINE, constant_values.EMPTY_STRING)
+        if not re.match(r'^[\d,\-]*$', token):
+            raise ValueError('Input data can only contain space, comma, and numbers.')
+    results = string.split(constant_values.COMMA)
+    for i in range(len(results)):
+        if constant_values.NEW_LINE in results[i]:
+            results[i] = results[i].replace(constant_values.NEW_LINE, constant_values.EMPTY_STRING)
+    return results
 
 
 def draw_euclidean_matching_graph(series1, series2, path):
