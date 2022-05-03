@@ -45,8 +45,8 @@ def test(data):
     print('Dynamic Time Warping distance is {}'.format(dtw_distance))
 
 
-test(fifty_words_data[1])
-test(computers_data[1])
-test(earthquake_data[1])
-test(ECG_data[1])
-test(symbols_data[1])
+test(fifty_words_data[1][1:])
+test(computers_data[1][1:])
+test(earthquake_data[1][1:])
+test(ECG_data[1][1:])
+test(symbols_data[1][1:])
