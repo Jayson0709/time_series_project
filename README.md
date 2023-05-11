@@ -1,12 +1,12 @@
-﻿## Undergraduate Final Year Project
+﻿## Time Series Data Visualization Project
 
-### Basic Objectives - Finished
+### Basic Objectives
 *PAA*, *SVD*, *APCA*, *DWT*, *DFT*, *PLA*, and *OneD_SAX* implementation and Visualization
 - Visualization similarity -> comparison
 - Dynamic warping -> DP performance
 - UCR dataset -> time series dataset
 
-### Extensions - Finished
+### Extensions
 - de-noising - **Faster Fourier Transform**
 - Accuracy measurement - **Dynamic Time Warping Distance**
 
